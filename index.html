@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>업무 인수인계</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
   :root {
     --bg: #f4f6fb;
@@ -16,23 +16,24 @@
     --accent2: #7c3aed;
     --green: #16a34a;
     --red: #dc2626;
-    --yellow: #d97706;
     --text: #1a1d2e;
     --text2: #5c6280;
     --text3: #9399b2;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --bottom-nav-h: 64px;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Noto Sans KR', 'Inter', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     min-height: 100vh;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.6;
+    padding-bottom: var(--bottom-nav-h);
   }
 
   /* ── Login ── */
@@ -41,122 +42,108 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(ellipse at 60% 20%, #dde5ff 0%, var(--bg) 60%);
+    padding: 24px 20px;
+    background: radial-gradient(ellipse at 50% 0%, #dde5ff 0%, var(--bg) 70%);
   }
 
   .login-box {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 48px 40px;
+    border-radius: 24px;
+    padding: 40px 28px;
     width: 100%;
-    max-width: 420px;
-    box-shadow: 0 32px 80px rgba(79,110,247,0.10);
+    max-width: 400px;
+    box-shadow: 0 8px 40px rgba(79,110,247,0.10);
   }
 
   .login-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 32px;
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
   }
-
   .login-logo .icon {
-    width: 44px; height: 44px;
+    width: 48px; height: 48px;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 12px;
+    border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
+    font-size: 24px; flex-shrink: 0;
   }
+  .login-logo h1 { font-size: 20px; font-weight: 700; }
 
-  .login-logo h1 { font-size: 18px; font-weight: 700; line-height: 1.2; }
-  .login-logo p { font-size: 12px; color: var(--text2); }
-
-  .login-box h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-  .login-box .subtitle { color: var(--text2); margin-bottom: 28px; font-size: 13px; }
+  .login-box h2 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+  .login-box .subtitle { color: var(--text2); margin-bottom: 28px; font-size: 14px; }
 
   .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase; }
-
-  .form-group input, .form-group select, .form-group textarea {
+  .form-group label {
+    display: block; font-size: 12px; font-weight: 700;
+    color: var(--text2); margin-bottom: 8px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .form-group input, .form-group select, .form-group textarea, .field-input {
     width: 100%;
     background: var(--surface2);
-    border: 1px solid var(--border);
+    border: 1.5px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 12px 14px;
+    padding: 14px 16px;
     color: var(--text);
-    font-size: 14px;
+    font-size: 16px; /* 16px prevents iOS zoom */
     font-family: inherit;
     outline: none;
     transition: border-color 0.2s;
+    -webkit-appearance: none;
   }
-
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus, .field-input:focus {
     border-color: var(--accent);
+    background: #fff;
   }
-
-  .form-group select option { background: #ffffff; color: var(--text); }
+  .form-group select option, .field-input option { background: #fff; color: var(--text); }
 
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 12px 20px;
+    padding: 14px 20px;
     border-radius: var(--radius-sm);
     border: none; cursor: pointer;
-    font-size: 14px; font-weight: 600; font-family: inherit;
-    transition: all 0.2s;
+    font-size: 15px; font-weight: 700; font-family: inherit;
+    transition: all 0.15s;
     text-decoration: none;
+    min-height: 48px; /* touch target */
   }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; width: 100%; }
+  .btn-primary:active { opacity: 0.85; transform: scale(0.98); }
+  .btn-sm { padding: 9px 14px; font-size: 13px; min-height: 38px; }
+  .btn-ghost { background: transparent; color: var(--text2); border: 1.5px solid var(--border); }
+  .btn-ghost:active { background: var(--surface2); }
+  .btn-danger { background: rgba(220,38,38,0.1); color: var(--red); border: 1.5px solid rgba(220,38,38,0.25); }
+  .btn-danger:active { background: rgba(220,38,38,0.2); }
+  .btn-success { background: rgba(22,163,74,0.1); color: var(--green); border: 1.5px solid rgba(22,163,74,0.25); }
+  .btn-success:active { background: rgba(22,163,74,0.2); }
+  .btn-icon { padding: 9px 12px; font-size: 16px; min-height: 38px; }
 
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #fff;
-    width: 100%;
-  }
+  .error-msg { color: var(--red); font-size: 13px; margin-top: 12px; text-align: center; }
 
-  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-
-  .btn-sm { padding: 7px 14px; font-size: 12px; }
-  .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); }
-  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
-  .btn-danger { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
-  .btn-danger:hover { background: rgba(239,68,68,0.25); }
-  .btn-success { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
-  .btn-success:hover { background: rgba(34,197,94,0.25); }
-
-  .error-msg { color: var(--red); font-size: 12px; margin-top: 10px; text-align: center; }
-
-  /* ── Layout ── */
+  /* ── App Layout ── */
   #app { display: none; min-height: 100vh; }
 
+  /* Top Header (mobile) */
   .topbar {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    height: 60px;
+    padding: 0 16px;
+    height: 56px;
     display: flex; align-items: center; justify-content: space-between;
     position: sticky; top: 0; z-index: 100;
   }
-
-  .topbar-left { display: flex; align-items: center; gap: 16px; }
   .topbar-logo { display: flex; align-items: center; gap: 10px; }
-  .topbar-logo .icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-  .topbar-logo span { font-weight: 700; font-size: 15px; }
-
-  .tab-bar { display: flex; gap: 4px; }
-  .tab-btn {
-    padding: 6px 14px; border-radius: 6px; border: none;
-    background: transparent; color: var(--text2);
-    font-size: 13px; font-weight: 500; cursor: pointer;
-    font-family: inherit; transition: all 0.15s;
+  .topbar-logo .icon {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px;
   }
-  .tab-btn.active { background: var(--surface2); color: var(--text); }
-  .tab-btn:hover:not(.active) { color: var(--text); }
-
-  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .topbar-logo span { font-weight: 700; font-size: 16px; }
+  .topbar-right { display: flex; align-items: center; gap: 8px; }
   .user-badge {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--surface2); padding: 6px 12px; border-radius: 20px;
-    font-size: 13px;
+    display: flex; align-items: center; gap: 7px;
+    background: var(--surface2); padding: 5px 10px; border-radius: 20px;
+    font-size: 13px; font-weight: 500;
   }
   .user-badge .avatar {
     width: 24px; height: 24px; border-radius: 50%;
@@ -164,182 +151,196 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 11px; font-weight: 700; color: #fff;
   }
-  .badge-admin { background: rgba(79,110,247,0.2); color: var(--accent); font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; }
+  .badge-admin { background: rgba(79,110,247,0.15); color: var(--accent); font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 700; }
+  .btn-logout { background: none; border: none; color: var(--text2); font-size: 13px; font-family: inherit; cursor: pointer; padding: 6px 8px; border-radius: 8px; font-weight: 500; }
+  .btn-logout:active { background: var(--surface2); }
 
-  .main-content { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+  /* Bottom Navigation */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    height: var(--bottom-nav-h);
+    display: flex; align-items: center;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .nav-btn {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; border: none; background: none; cursor: pointer;
+    color: var(--text3); font-size: 10px; font-weight: 600; font-family: inherit;
+    padding: 8px 4px; border-radius: 10px; transition: color 0.15s;
+    min-height: 48px;
+  }
+  .nav-btn .nav-icon { font-size: 22px; line-height: 1; }
+  .nav-btn.active { color: var(--accent); }
+  .nav-btn.active .nav-icon { transform: scale(1.1); }
 
-  /* ── Checklist Tab ── */
-  .page-header { margin-bottom: 28px; }
-  .page-header h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  /* Main content */
+  .main-content { padding: 20px 16px; max-width: 680px; margin: 0 auto; }
+
+  /* Page header */
+  .page-header { margin-bottom: 20px; }
+  .page-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 3px; }
   .page-header p { color: var(--text2); font-size: 13px; }
 
-  .progress-bar-wrap { background: var(--surface2); border-radius: 99px; height: 6px; margin-bottom: 24px; overflow: hidden; }
+  /* Progress */
+  .progress-wrap { margin-bottom: 20px; }
+  .progress-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label span { font-size: 13px; color: var(--text2); }
+  .progress-label strong { font-size: 15px; font-weight: 700; color: var(--text); }
+  .progress-bar-track { background: var(--surface2); border-radius: 99px; height: 8px; overflow: hidden; }
   .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 99px; transition: width 0.5s ease; }
-  .progress-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: var(--text2); }
-  .progress-label strong { color: var(--text); font-size: 14px; }
 
-  .category-block { margin-bottom: 24px; }
-
+  /* Category */
+  .category-block { margin-bottom: 16px; border-radius: var(--radius); overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
   .category-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 18px;
+    padding: 14px 16px;
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius) var(--radius) 0 0;
-    cursor: pointer;
-    user-select: none;
+    cursor: pointer; user-select: none;
   }
-
-  .category-header:hover { background: var(--surface2); }
-
-  .category-title { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
-  .category-count { font-size: 12px; color: var(--text2); background: var(--surface2); padding: 2px 10px; border-radius: 99px; }
-  .category-chevron { color: var(--text3); transition: transform 0.2s; font-size: 12px; }
+  .category-header:active { background: var(--surface2); }
+  .category-title { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+  .category-count { font-size: 12px; color: var(--text2); background: var(--surface2); padding: 3px 10px; border-radius: 99px; font-weight: 600; }
+  .category-chevron { color: var(--text3); font-size: 11px; transition: transform 0.2s; }
   .category-chevron.open { transform: rotate(180deg); }
+  .category-items { background: var(--surface); border-top: 1px solid var(--border); }
 
-  .category-items {
-    border: 1px solid var(--border); border-top: none;
-    border-radius: 0 0 var(--radius) var(--radius);
-    overflow: hidden;
-  }
-
+  /* Checklist item */
   .checklist-item {
     display: flex; align-items: flex-start; gap: 14px;
-    padding: 16px 18px;
+    padding: 14px 16px;
     border-bottom: 1px solid var(--border);
-    transition: background 0.15s;
-    cursor: pointer;
+    cursor: pointer; transition: background 0.1s;
+    min-height: 56px;
   }
-
   .checklist-item:last-child { border-bottom: none; }
-  .checklist-item:hover { background: var(--surface2); }
-  .checklist-item.checked { opacity: 0.6; }
-
+  .checklist-item:active { background: var(--surface2); }
+  .checklist-item.checked { opacity: 0.55; }
   .check-box {
-    width: 22px; height: 22px; min-width: 22px;
-    border: 2px solid var(--border);
-    border-radius: 6px;
+    width: 26px; height: 26px; min-width: 26px;
+    border: 2px solid var(--border); border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    margin-top: 1px;
-    transition: all 0.2s;
-    background: transparent;
+    margin-top: 1px; transition: all 0.2s; font-size: 14px;
   }
-
-  .checklist-item.checked .check-box {
-    background: var(--green);
-    border-color: var(--green);
-    color: #fff;
-  }
-
-  .item-content { flex: 1; }
-  .item-title { font-weight: 500; font-size: 14px; }
+  .checklist-item.checked .check-box { background: var(--green); border-color: var(--green); color: #fff; }
+  .item-content { flex: 1; min-width: 0; }
+  .item-title { font-weight: 500; font-size: 15px; }
   .checklist-item.checked .item-title { text-decoration: line-through; color: var(--text3); }
-  .item-desc { font-size: 12px; color: var(--text2); margin-top: 3px; }
-  .item-note { font-size: 12px; color: var(--accent); margin-top: 4px; font-style: italic; }
+  .item-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
+  .item-note { font-size: 12px; color: var(--accent); margin-top: 4px; }
   .item-meta { font-size: 11px; color: var(--text3); margin-top: 4px; }
 
-  .item-actions { display: flex; gap: 6px; align-items: center; margin-left: auto; }
+  /* Cards */
+  .card { background: var(--surface); border-radius: var(--radius); padding: 20px 16px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .card-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .section-label { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
 
-  /* ── Admin Tab ── */
-  .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  @media (max-width: 700px) { .admin-grid { grid-template-columns: 1fr; } }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-  }
-
-  .card-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-
+  /* User rows */
   .user-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-  .user-row {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--surface2); padding: 10px 12px; border-radius: var(--radius-sm);
-  }
-  .user-row .avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
-  .user-row .info { flex: 1; }
-  .user-row .name { font-weight: 600; font-size: 13px; }
-  .user-row .username { font-size: 11px; color: var(--text2); }
-  .user-row.inactive { opacity: 0.45; }
-  .role-badge { font-size: 10px; padding: 2px 7px; border-radius: 99px; font-weight: 600; }
-  .role-badge.admin { background: rgba(79,110,247,0.2); color: var(--accent); }
-  .role-badge.user { background: rgba(147,153,178,0.15); color: var(--text2); }
+  .user-row { display: flex; align-items: center; gap: 12px; background: var(--surface2); padding: 12px 14px; border-radius: var(--radius-sm); }
+  .user-row .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .user-row .info { flex: 1; min-width: 0; }
+  .user-row .name { font-weight: 700; font-size: 14px; }
+  .user-row .uname { font-size: 12px; color: var(--text2); }
+  .user-row.inactive { opacity: 0.4; }
+  .user-row-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .role-badge { font-size: 10px; padding: 2px 7px; border-radius: 99px; font-weight: 700; display: inline-block; margin-left: 4px; }
+  .role-badge.admin { background: rgba(79,110,247,0.15); color: var(--accent); }
+  .role-badge.user { background: rgba(147,153,178,0.12); color: var(--text2); }
 
-  .item-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-  .item-row {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--surface2); padding: 10px 12px; border-radius: var(--radius-sm);
-  }
-  .item-row .item-info { flex: 1; }
-  .item-row .item-name { font-size: 13px; font-weight: 500; }
-  .item-row .item-cat { font-size: 11px; color: var(--text2); }
+  /* Item rows */
+  .item-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .item-row { display: flex; align-items: center; gap: 10px; background: var(--surface2); padding: 12px 14px; border-radius: var(--radius-sm); }
+  .item-row .item-info { flex: 1; min-width: 0; }
+  .item-row .item-name { font-size: 14px; font-weight: 500; }
+  .item-row .item-cat { font-size: 11px; color: var(--text2); margin-top: 2px; }
 
-  .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
-
+  /* Add form */
   .add-form { display: flex; flex-direction: column; gap: 10px; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
 
-  /* ── Modal ── */
+  /* Modal */
   .modal-overlay {
     display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7); z-index: 200;
-    align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.5); z-index: 200;
+    align-items: flex-end; justify-content: center;
+    padding: 0;
   }
   .modal-overlay.open { display: flex; }
   .modal {
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    width: 100%; max-width: 440px;
-    max-height: 90vh; overflow-y: auto;
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px 32px;
+    width: 100%; max-width: 560px;
+    max-height: 85vh; overflow-y: auto;
   }
-  .modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 20px; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+  .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 99px; margin: 0 auto 20px; }
+  .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 18px; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+  .modal-actions .btn { flex: 1; }
 
-  /* ── Toast ── */
+  /* Toast */
   #toast {
-    position: fixed; bottom: 24px; right: 24px; z-index: 300;
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 10px; padding: 12px 18px;
-    font-size: 13px; font-weight: 500;
-    transform: translateY(100px); opacity: 0;
-    transition: all 0.3s; pointer-events: none;
-    display: flex; align-items: center; gap: 8px;
+    position: fixed; bottom: calc(var(--bottom-nav-h) + 12px); left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #1a1d2e; color: #fff;
+    border-radius: 99px; padding: 12px 20px;
+    font-size: 14px; font-weight: 500; white-space: nowrap;
+    opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 300;
   }
-  #toast.show { transform: translateY(0); opacity: 1; }
-  #toast.success { border-color: var(--green); }
-  #toast.error { border-color: var(--red); }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  .empty-state { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 13px; }
-  .empty-state .emoji { font-size: 32px; margin-bottom: 10px; }
-
-  .loading { text-align: center; padding: 60px 20px; color: var(--text3); }
-  .spinner { display: inline-block; width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; }
+  .empty-state .emoji { font-size: 36px; margin-bottom: 10px; }
+  .loading { text-align: center; padding: 40px 20px; color: var(--text3); }
+  .spinner { display: inline-block; width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 10px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Desktop adjustments */
+  @media (min-width: 640px) {
+    .modal-overlay { align-items: center; padding: 20px; }
+    .modal { border-radius: 20px; max-height: 80vh; }
+    .modal-handle { display: none; }
+    body { padding-bottom: 0; }
+    .bottom-nav { display: none; }
+    .topbar { height: 60px; padding: 0 24px; }
+    .desktop-tab-bar { display: flex !important; gap: 4px; }
+    .main-content { padding: 28px 24px; }
+    #toast { bottom: 24px; }
+  }
+
+  .desktop-tab-bar {
+    display: none;
+    gap: 4px;
+  }
+  .tab-btn {
+    padding: 7px 14px; border-radius: 8px; border: none;
+    background: transparent; color: var(--text2);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all 0.15s;
+  }
+  .tab-btn.active { background: var(--surface2); color: var(--accent); }
 </style>
 </head>
 <body>
 
-<!-- ── Login Screen ── -->
+<!-- ── Login ── -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">
       <div class="icon">📋</div>
-      <div>
-        <h1>업무 인수인계</h1>
-      </div>
+      <div><h1>업무 인수인계</h1></div>
     </div>
     <h2>로그인</h2>
     <p class="subtitle">계정 정보를 입력하여 로그인하세요</p>
     <div class="form-group">
       <label>아이디</label>
-      <input type="text" id="login-username" placeholder="username" autocomplete="username">
+      <input type="text" id="login-username" placeholder="아이디 입력" autocomplete="username">
     </div>
     <div class="form-group">
       <label>비밀번호</label>
-      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      <input type="password" id="login-password" placeholder="비밀번호 입력" autocomplete="current-password">
     </div>
     <button class="btn btn-primary" onclick="doLogin()">로그인</button>
     <div id="login-error" class="error-msg"></div>
@@ -348,17 +349,17 @@
 
 <!-- ── App ── -->
 <div id="app">
+  <!-- Top Bar -->
   <div class="topbar">
-    <div class="topbar-left">
-      <div class="topbar-logo">
-        <div class="icon">📋</div>
-        <span>업무 인수인계</span>
-      </div>
-      <div class="tab-bar" id="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('checklist')">✅ 체크리스트</button>
-        <button class="tab-btn" onclick="switchTab('add')">➕ 항목 추가</button>
-        <button class="tab-btn" id="admin-tab-btn" onclick="switchTab('admin')" style="display:none">⚙️ 관리자</button>
-      </div>
+    <div class="topbar-logo">
+      <div class="icon">📋</div>
+      <span>업무 인수인계</span>
+    </div>
+    <!-- Desktop tabs -->
+    <div class="desktop-tab-bar" id="desktop-tab-bar">
+      <button class="tab-btn active" onclick="switchTab('checklist')">✅ 체크리스트</button>
+      <button class="tab-btn" onclick="switchTab('add')">➕ 항목 추가</button>
+      <button class="tab-btn" id="admin-tab-btn-desk" onclick="switchTab('admin')" style="display:none">⚙️ 관리자</button>
     </div>
     <div class="topbar-right">
       <div class="user-badge">
@@ -366,60 +367,51 @@
         <span id="user-display-name"></span>
         <span class="badge-admin" id="admin-badge" style="display:none">ADMIN</span>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="doLogout()">로그아웃</button>
+      <button class="btn-logout" onclick="doLogout()">로그아웃</button>
     </div>
   </div>
 
   <!-- Checklist Tab -->
   <div id="tab-checklist" class="main-content">
     <div class="page-header">
-      <h2>업무 인수인계 체크리스트</h2>
-      <p>항목을 클릭하여 완료 처리하세요. 진행 상황이 실시간으로 저장됩니다.</p>
+      <h2>체크리스트</h2>
+      <p>항목을 눌러 완료 처리하세요</p>
     </div>
-    <div class="progress-label">
-      <span>전체 진행률</span>
-      <strong id="progress-text">0 / 0 완료</strong>
-    </div>
-    <div class="progress-bar-wrap">
-      <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>전체 진행률</span>
+        <strong id="progress-text">0 / 0</strong>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+      </div>
     </div>
     <div id="checklist-container">
       <div class="loading"><div class="spinner"></div><br>불러오는 중...</div>
     </div>
   </div>
 
-  <!-- Add Items Tab (모든 사용자) -->
+  <!-- Add Tab -->
   <div id="tab-add" class="main-content" style="display:none">
     <div class="page-header">
       <h2>항목 추가</h2>
-      <p>인수인계에 필요한 항목을 직접 추가하세요.</p>
+      <p>인수인계 항목을 직접 추가하세요</p>
     </div>
-    <div style="max-width:540px;">
-      <div class="card">
-        <div class="card-title">📝 새 항목 추가</div>
-        <div class="add-form">
-          <div>
-            <label style="display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">카테고리</label>
-            <select id="user-item-category" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-              <option value="">카테고리 선택...</option>
-            </select>
-          </div>
-          <div>
-            <label style="display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">항목 제목 <span style="color:var(--red);">*</span></label>
-            <input type="text" id="user-item-title" placeholder="예: 선박검사 서류 인계" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          </div>
-          <div>
-            <label style="display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">설명 (선택)</label>
-            <input type="text" id="user-item-desc" placeholder="추가 설명이 있으면 입력하세요" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          </div>
-          <button class="btn btn-success" onclick="userAddItem()" style="margin-top:4px;">➕ 항목 추가</button>
-        </div>
-        <hr class="divider">
-        <div class="card-title" style="font-size:13px;margin-bottom:12px;">새 카테고리 만들기</div>
-        <div class="add-form">
-          <input type="text" id="user-category-title" placeholder="카테고리 이름 (예: 계약 서류)" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          <button class="btn btn-ghost btn-sm" onclick="userAddCategory()">+ 카테고리 추가</button>
-        </div>
+    <div class="card">
+      <div class="card-title">📝 새 항목</div>
+      <div class="add-form">
+        <select class="field-input" id="user-item-category">
+          <option value="">카테고리 선택...</option>
+        </select>
+        <input type="text" class="field-input" id="user-item-title" placeholder="항목 제목 *">
+        <input type="text" class="field-input" id="user-item-desc" placeholder="설명 (선택사항)">
+        <button class="btn btn-success" onclick="userAddItem()">➕ 항목 추가</button>
+      </div>
+      <div class="divider"></div>
+      <div class="card-title" style="font-size:14px;margin-bottom:10px;">🗂 새 카테고리</div>
+      <div class="add-form">
+        <input type="text" class="field-input" id="user-category-title" placeholder="카테고리 이름">
+        <button class="btn btn-ghost" onclick="userAddCategory()">+ 카테고리 추가</button>
       </div>
     </div>
   </div>
@@ -427,96 +419,111 @@
   <!-- Admin Tab -->
   <div id="tab-admin" class="main-content" style="display:none">
     <div class="page-header">
-      <h2>관리자 패널</h2>
-      <p>사용자 계정과 체크리스트 항목을 관리합니다.</p>
+      <h2>관리자</h2>
+      <p>사용자 및 항목을 관리합니다</p>
     </div>
-    <div class="admin-grid">
-      <!-- 사용자 관리 -->
-      <div class="card">
-        <div class="card-title">👤 사용자 관리</div>
-        <div class="user-list" id="user-list">
-          <div class="loading"><div class="spinner"></div></div>
-        </div>
-        <hr class="divider">
-        <div class="card-title" style="font-size:13px; margin-bottom:12px;">새 사용자 추가</div>
-        <div class="add-form">
-          <input class="form-group input" type="text" id="new-display-name" placeholder="이름 (예: 홍길동)" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          <input class="form-group input" type="text" id="new-username" placeholder="아이디 (예: hong)" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          <input class="form-group input" type="password" id="new-password" placeholder="비밀번호" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          <select id="new-role" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-            <option value="user">일반 사용자</option>
-            <option value="admin">관리자</option>
-          </select>
-          <button class="btn btn-success btn-sm" onclick="addUser()">+ 사용자 추가</button>
-        </div>
-      </div>
 
-      <!-- 체크리스트 관리 -->
-      <div class="card">
-        <div class="card-title">📋 체크리스트 항목 관리</div>
-        <div class="card-title" style="font-size:12px;color:var(--text2);margin-bottom:8px;">카테고리</div>
-        <div class="item-list" id="admin-category-list"></div>
-        <hr class="divider">
-        <div class="card-title" style="font-size:12px;color:var(--text2);margin-bottom:8px;">항목</div>
-        <div class="item-list" id="admin-item-list">
-          <div class="loading"><div class="spinner"></div></div>
-        </div>
-        <hr class="divider">
-        <div class="card-title" style="font-size:13px; margin-bottom:12px;">새 항목 추가</div>
-        <div class="add-form">
-          <select id="new-item-category" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-            <option value="">카테고리 선택...</option>
-          </select>
-          <input type="text" id="new-item-title" placeholder="항목 제목" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          <input type="text" id="new-item-desc" placeholder="설명 (선택사항)" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          <button class="btn btn-success btn-sm" onclick="addItem()">+ 항목 추가</button>
-        </div>
-        <hr class="divider">
-        <div class="card-title" style="font-size:13px; margin-bottom:12px;">새 카테고리 추가</div>
-        <div class="add-form">
-          <input type="text" id="new-category-title" placeholder="카테고리 이름" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
-          <button class="btn btn-ghost btn-sm" onclick="addCategory()">+ 카테고리 추가</button>
-        </div>
+    <!-- 사용자 관리 -->
+    <div class="card">
+      <div class="card-title">👤 사용자 관리</div>
+      <div class="user-list" id="user-list">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">새 사용자 추가</div>
+      <div class="add-form">
+        <input type="text" class="field-input" id="new-display-name" placeholder="이름 (예: 홍길동)">
+        <input type="text" class="field-input" id="new-username" placeholder="아이디 (예: hong)">
+        <input type="password" class="field-input" id="new-password" placeholder="비밀번호">
+        <select class="field-input" id="new-role">
+          <option value="user">일반 사용자</option>
+          <option value="admin">관리자</option>
+        </select>
+        <button class="btn btn-success" onclick="addUser()">+ 사용자 추가</button>
+      </div>
+    </div>
+
+    <!-- 카테고리 관리 -->
+    <div class="card">
+      <div class="card-title">🗂 카테고리 관리</div>
+      <div class="item-list" id="admin-category-list"></div>
+      <div class="divider"></div>
+      <div class="section-label">새 카테고리 추가</div>
+      <div class="add-form">
+        <input type="text" class="field-input" id="new-category-title" placeholder="카테고리 이름">
+        <button class="btn btn-ghost" onclick="addCategory()">+ 카테고리 추가</button>
+      </div>
+    </div>
+
+    <!-- 항목 관리 -->
+    <div class="card">
+      <div class="card-title">📋 항목 관리</div>
+      <div class="item-list" id="admin-item-list">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">새 항목 추가</div>
+      <div class="add-form">
+        <select class="field-input" id="new-item-category">
+          <option value="">카테고리 선택...</option>
+        </select>
+        <input type="text" class="field-input" id="new-item-title" placeholder="항목 제목">
+        <input type="text" class="field-input" id="new-item-desc" placeholder="설명 (선택사항)">
+        <button class="btn btn-success" onclick="addItem()">+ 항목 추가</button>
       </div>
     </div>
   </div>
+
+  <!-- Bottom Nav (mobile) -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-checklist" onclick="switchTab('checklist')">
+      <span class="nav-icon">✅</span>체크리스트
+    </button>
+    <button class="nav-btn" id="nav-add" onclick="switchTab('add')">
+      <span class="nav-icon">➕</span>항목 추가
+    </button>
+    <button class="nav-btn" id="nav-admin" onclick="switchTab('admin')" style="display:none">
+      <span class="nav-icon">⚙️</span>관리자
+    </button>
+  </nav>
 </div>
 
-<!-- ── Category Edit Modal ── -->
+<!-- Category Edit Modal -->
 <div class="modal-overlay" id="cat-edit-modal">
   <div class="modal">
-    <h3>✏️ 카테고리 수정</h3>
+    <div class="modal-handle"></div>
+    <h3>카테고리 수정</h3>
     <div class="form-group">
       <label>카테고리 이름</label>
-      <input type="text" id="cat-edit-input" placeholder="새 카테고리 이름" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;">
+      <input type="text" id="cat-edit-input" class="field-input" placeholder="새 이름 입력">
     </div>
     <div class="modal-actions">
-      <button class="btn btn-ghost btn-sm" onclick="closeCatEditModal()">취소</button>
-      <button class="btn btn-primary btn-sm" onclick="saveCatEdit()" style="width:auto;">저장</button>
+      <button class="btn btn-ghost" onclick="closeCatEditModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveCatEdit()">저장</button>
     </div>
   </div>
 </div>
 
-<!-- ── Note Modal ── -->
+<!-- Note Modal -->
 <div class="modal-overlay" id="note-modal">
   <div class="modal">
-    <h3>✏️ 메모 추가</h3>
+    <div class="modal-handle"></div>
+    <h3>✏️ 완료 처리</h3>
     <div class="form-group">
       <label>항목</label>
-      <div id="note-item-title" style="color:var(--text2);font-size:13px;padding:8px 0;"></div>
+      <div id="note-item-title" style="font-size:15px;font-weight:600;padding:8px 0;color:var(--text);"></div>
     </div>
     <div class="form-group">
       <label>메모 (선택사항)</label>
-      <textarea id="note-input" rows="4" placeholder="인수인계 관련 메모를 입력하세요..." style="resize:vertical;"></textarea>
+      <textarea id="note-input" class="field-input" rows="3" placeholder="인수인계 메모를 입력하세요..." style="resize:none;"></textarea>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-ghost btn-sm" onclick="closeNoteModal()">취소</button>
-      <button class="btn btn-primary btn-sm" onclick="saveCheck()" style="width:auto;">완료 처리</button>
+      <button class="btn btn-ghost" onclick="closeNoteModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveCheck()">완료 처리</button>
     </div>
   </div>
 </div>
 
-<!-- ── Toast ── -->
 <div id="toast"></div>
 
 <script>
@@ -536,24 +543,18 @@ let allCategories = [];
 let allItems = [];
 let allChecks = [];
 
-// ── SHA-256 hash ──
 async function sha256(msg) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
-// ── Supabase helpers ──
 async function sb(path, opts = {}) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers, ...opts });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || res.statusText);
-  }
+  if (!res.ok) { const err = await res.json().catch(() => ({})); throw new Error(err.message || res.statusText); }
   if (res.status === 204) return null;
   return res.json();
 }
 
-// ── Auth ──
 async function doLogin() {
   const username = document.getElementById('login-username').value.trim();
   const password = document.getElementById('login-password').value;
@@ -567,7 +568,7 @@ async function doLogin() {
     currentUser = rows[0];
     sessionStorage.setItem('handover_user', JSON.stringify(currentUser));
     showApp();
-  } catch(e) { errEl.textContent = '오류가 발생했습니다: ' + e.message; }
+  } catch(e) { errEl.textContent = '오류: ' + e.message; }
 }
 
 function doLogout() {
@@ -580,24 +581,23 @@ function doLogout() {
 function showApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  const av = currentUser.display_name.charAt(0).toUpperCase();
-  document.getElementById('user-avatar').textContent = av;
+  document.getElementById('user-avatar').textContent = currentUser.display_name.charAt(0).toUpperCase();
   document.getElementById('user-display-name').textContent = currentUser.display_name;
   if (currentUser.role === 'admin') {
     document.getElementById('admin-badge').style.display = 'inline-block';
-    document.getElementById('admin-tab-btn').style.display = 'inline-block';
+    document.getElementById('nav-admin').style.display = 'flex';
+    document.getElementById('admin-tab-btn-desk').style.display = 'inline-block';
   }
   loadChecklist();
 }
 
-// ── Checklist ──
 async function loadChecklist() {
   try {
     allCategories = await sb('handover_categories?order=order_index');
     allItems = await sb('handover_items?order=order_index');
     allChecks = await sb(`handover_checks?user_id=eq.${currentUser.id}`);
     renderChecklist();
-  } catch(e) { showToast('데이터 로드 실패: ' + e.message, 'error'); }
+  } catch(e) { showToast('데이터 로드 실패'); }
 }
 
 function renderChecklist() {
@@ -605,40 +605,32 @@ function renderChecklist() {
   const checkedIds = new Set((allChecks || []).map(c => c.item_id));
   const total = allItems.length;
   const done = allItems.filter(i => checkedIds.has(i.id)).length;
-
   document.getElementById('progress-text').textContent = `${done} / ${total} 완료`;
   document.getElementById('progress-bar').style.width = total ? `${Math.round(done/total*100)}%` : '0%';
-
   if (allCategories.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="emoji">📋</div><p>관리자가 체크리스트 항목을 추가하면 여기에 표시됩니다.</p></div>';
+    container.innerHTML = '<div class="empty-state"><div class="emoji">📋</div><p>항목을 추가하면 여기에 표시됩니다</p></div>';
     return;
   }
-
   container.innerHTML = allCategories.map(cat => {
     const items = allItems.filter(i => i.category_id === cat.id);
-    const catDone = items.filter(i => checkedIds.has(i.id)).length;
     if (items.length === 0) return '';
-    return `
-    <div class="category-block">
-      <div class="category-header" onclick="toggleCategory('cat-${cat.id}', this)">
-        <div class="category-title">
-          <span>${cat.title}</span>
-          <span class="category-count">${catDone}/${items.length}</span>
-        </div>
+    const catDone = items.filter(i => checkedIds.has(i.id)).length;
+    return `<div class="category-block">
+      <div class="category-header" onclick="toggleCategory('cat-${cat.id}')">
+        <div class="category-title"><span>${cat.title}</span><span class="category-count">${catDone}/${items.length}</span></div>
         <span class="category-chevron open" id="chevron-cat-${cat.id}">▼</span>
       </div>
       <div class="category-items" id="cat-${cat.id}">
         ${items.map(item => {
           const checked = checkedIds.has(item.id);
           const checkData = (allChecks||[]).find(c => c.item_id === item.id);
-          return `
-          <div class="checklist-item ${checked ? 'checked' : ''}" onclick="clickItem('${item.id}', '${escHtml(item.title)}')">
-            <div class="check-box">${checked ? '✓' : ''}</div>
+          return `<div class="checklist-item ${checked?'checked':''}" onclick="clickItem('${item.id}','${escHtml(item.title)}')">
+            <div class="check-box">${checked?'✓':''}</div>
             <div class="item-content">
               <div class="item-title">${escHtml(item.title)}</div>
-              ${item.description ? `<div class="item-desc">${escHtml(item.description)}</div>` : ''}
-              ${checkData?.note ? `<div class="item-note">💬 ${escHtml(checkData.note)}</div>` : ''}
-              ${checked ? `<div class="item-meta">✅ 완료됨 · ${new Date(checkData.checked_at).toLocaleDateString('ko-KR')}</div>` : ''}
+              ${item.description?`<div class="item-desc">${escHtml(item.description)}</div>`:''}
+              ${checkData?.note?`<div class="item-note">💬 ${escHtml(checkData.note)}</div>`:''}
+              ${checked?`<div class="item-meta">완료 · ${new Date(checkData.checked_at).toLocaleDateString('ko-KR')}</div>`:''}
             </div>
           </div>`;
         }).join('')}
@@ -647,7 +639,7 @@ function renderChecklist() {
   }).join('');
 }
 
-function toggleCategory(id, header) {
+function toggleCategory(id) {
   const el = document.getElementById(id);
   const chevron = document.getElementById('chevron-' + id);
   const isOpen = el.style.display !== 'none';
@@ -656,111 +648,92 @@ function toggleCategory(id, header) {
 }
 
 function escHtml(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function clickItem(itemId, itemTitle) {
-  const checked = (allChecks || []).find(c => c.item_id === itemId);
-  if (checked) { uncheckItem(itemId); return; }
+  if ((allChecks||[]).find(c => c.item_id === itemId)) { uncheckItem(itemId); return; }
   pendingItemId = itemId;
   document.getElementById('note-item-title').textContent = itemTitle;
   document.getElementById('note-input').value = '';
   document.getElementById('note-modal').classList.add('open');
 }
 
-function closeNoteModal() {
-  document.getElementById('note-modal').classList.remove('open');
-  pendingItemId = null;
-}
+function closeNoteModal() { document.getElementById('note-modal').classList.remove('open'); pendingItemId = null; }
 
 async function saveCheck() {
   if (!pendingItemId) return;
   const note = document.getElementById('note-input').value.trim();
   closeNoteModal();
   try {
-    await sb('handover_checks', {
-      method: 'POST',
-      body: JSON.stringify({ item_id: pendingItemId, user_id: currentUser.id, note: note || null })
-    });
+    await sb('handover_checks', { method: 'POST', body: JSON.stringify({ item_id: pendingItemId, user_id: currentUser.id, note: note||null }) });
     await loadChecklist();
-    showToast('완료 처리되었습니다! ✅', 'success');
-  } catch(e) { showToast('저장 실패: ' + e.message, 'error'); }
+    showToast('완료 처리되었습니다 ✅');
+  } catch(e) { showToast('저장 실패: ' + e.message); }
 }
 
 async function uncheckItem(itemId) {
   try {
     await sb(`handover_checks?item_id=eq.${itemId}&user_id=eq.${currentUser.id}`, { method: 'DELETE' });
     await loadChecklist();
-    showToast('완료 취소되었습니다', '');
-  } catch(e) { showToast('오류: ' + e.message, 'error'); }
+    showToast('완료 취소되었습니다');
+  } catch(e) { showToast('오류: ' + e.message); }
 }
 
-// ── Admin ──
-async function loadAdmin() {
-  await Promise.all([loadUsers(), loadAdminItems()]);
-}
+async function loadAdmin() { await Promise.all([loadUsers(), loadAdminItems()]); }
 
 async function loadUsers() {
   try {
     const users = await sb('handover_users?order=created_at');
     const el = document.getElementById('user-list');
-    if (!users || users.length === 0) { el.innerHTML = '<div class="empty-state">사용자 없음</div>'; return; }
+    if (!users||users.length===0) { el.innerHTML='<div class="empty-state">사용자 없음</div>'; return; }
     el.innerHTML = users.map(u => `
-      <div class="user-row ${u.is_active ? '' : 'inactive'}">
+      <div class="user-row ${u.is_active?'':'inactive'}">
         <div class="avatar">${u.display_name.charAt(0)}</div>
         <div class="info">
-          <div class="name">${escHtml(u.display_name)} <span class="role-badge ${u.role}">${u.role === 'admin' ? '관리자' : '일반'}</span></div>
-          <div class="username">@${escHtml(u.username)} · ${u.is_active ? '활성' : '비활성'}</div>
+          <div class="name">${escHtml(u.display_name)}<span class="role-badge ${u.role}">${u.role==='admin'?'관리자':'일반'}</span></div>
+          <div class="uname">@${escHtml(u.username)} · ${u.is_active?'활성':'비활성'}</div>
         </div>
-        ${u.id !== currentUser.id ? `
-        <button class="btn btn-sm ${u.is_active ? 'btn-danger' : 'btn-ghost'}" onclick="toggleUser('${u.id}', ${u.is_active})">
-          ${u.is_active ? '비활성화' : '활성화'}
-        </button>
-        <button class="btn btn-sm btn-danger" onclick="deleteUser('${u.id}', '${escHtml(u.display_name)}')" style="background:rgba(239,68,68,0.25);">🗑️</button>` : '<span style="font-size:11px;color:var(--text3);">본인</span>'}
+        ${u.id!==currentUser.id?`
+        <div class="user-row-actions">
+          <button class="btn btn-sm ${u.is_active?'btn-danger':'btn-ghost'}" onclick="toggleUser('${u.id}',${u.is_active})">${u.is_active?'비활성':'활성'}</button>
+          <button class="btn btn-sm btn-danger btn-icon" onclick="deleteUser('${u.id}','${escHtml(u.display_name)}')">🗑️</button>
+        </div>`:'<span style="font-size:12px;color:var(--text3);">본인</span>'}
       </div>`).join('');
-  } catch(e) { showToast('사용자 목록 로드 실패', 'error'); }
+  } catch(e) { showToast('사용자 로드 실패'); }
 }
 
 async function loadAdminItems() {
   try {
     const cats = await sb('handover_categories?order=order_index');
     const items = await sb('handover_items?order=order_index');
-    allCategories = cats;
-    allItems = items;
+    allCategories = cats; allItems = items;
 
-    // category select
     const sel = document.getElementById('new-item-category');
-    sel.innerHTML = '<option value="">카테고리 선택...</option>' + cats.map(c => `<option value="${c.id}">${escHtml(c.title)}</option>`).join('');
+    sel.innerHTML = '<option value="">카테고리 선택...</option>' + cats.map(c=>`<option value="${c.id}">${escHtml(c.title)}</option>`).join('');
 
-    // 카테고리 목록
     const catEl = document.getElementById('admin-category-list');
-    if (!cats || cats.length === 0) {
-      catEl.innerHTML = '<div class="empty-state">카테고리 없음</div>';
-    } else {
-      catEl.innerHTML = cats.map(cat => `
+    catEl.innerHTML = cats.length===0 ? '<div class="empty-state">카테고리 없음</div>' :
+      cats.map(cat=>`
       <div class="item-row">
-        <div class="item-info">
-          <div class="item-name">${escHtml(cat.title)}</div>
-        </div>
-        <button class="btn btn-ghost btn-sm" onclick="openCatEditModal('${cat.id}', '${escHtml(cat.title)}')">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}', '${escHtml(cat.title)}')">🗑️</button>
+        <div class="item-info"><div class="item-name">${escHtml(cat.title)}</div></div>
+        <button class="btn btn-ghost btn-icon btn-sm" onclick="openCatEditModal('${cat.id}','${escHtml(cat.title)}')">✏️</button>
+        <button class="btn btn-danger btn-icon btn-sm" onclick="deleteCategory('${cat.id}','${escHtml(cat.title)}')">🗑️</button>
       </div>`).join('');
-    }
 
     const el = document.getElementById('admin-item-list');
-    if (!items || items.length === 0) { el.innerHTML = '<div class="empty-state">항목 없음</div>'; return; }
-    el.innerHTML = items.map(item => {
-      const cat = cats.find(c => c.id === item.category_id);
-      return `
-      <div class="item-row">
-        <div class="item-info">
-          <div class="item-name">${escHtml(item.title)}</div>
-          <div class="item-cat">${cat ? escHtml(cat.title) : '미분류'}</div>
-        </div>
-        <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')">삭제</button>
-      </div>`;
-    }).join('');
-  } catch(e) { showToast('항목 로드 실패', 'error'); }
+    el.innerHTML = items.length===0 ? '<div class="empty-state">항목 없음</div>' :
+      items.map(item => {
+        const cat = cats.find(c=>c.id===item.category_id);
+        return `<div class="item-row">
+          <div class="item-info">
+            <div class="item-name">${escHtml(item.title)}</div>
+            <div class="item-cat">${cat?escHtml(cat.title):'미분류'}</div>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')">삭제</button>
+        </div>`;
+      }).join('');
+  } catch(e) { showToast('항목 로드 실패'); }
 }
 
 async function addUser() {
@@ -768,170 +741,158 @@ async function addUser() {
   const username = document.getElementById('new-username').value.trim();
   const password = document.getElementById('new-password').value;
   const role = document.getElementById('new-role').value;
-  if (!displayName || !username || !password) { showToast('모든 필드를 입력하세요', 'error'); return; }
+  if (!displayName||!username||!password) { showToast('모든 필드를 입력하세요'); return; }
   try {
     const hash = await sha256(password);
-    await sb('handover_users', { method: 'POST', body: JSON.stringify({ display_name: displayName, username, password_hash: hash, role }) });
-    document.getElementById('new-display-name').value = '';
-    document.getElementById('new-username').value = '';
-    document.getElementById('new-password').value = '';
+    await sb('handover_users', { method:'POST', body: JSON.stringify({ display_name:displayName, username, password_hash:hash, role }) });
+    document.getElementById('new-display-name').value='';
+    document.getElementById('new-username').value='';
+    document.getElementById('new-password').value='';
     await loadUsers();
-    showToast(`${displayName} 계정이 생성되었습니다 ✅`, 'success');
-  } catch(e) { showToast('추가 실패: ' + e.message, 'error'); }
+    showToast(`${displayName} 계정 생성됨 ✅`);
+  } catch(e) { showToast('추가 실패: ' + e.message); }
 }
 
 async function deleteUser(userId, displayName) {
-  if (!confirm(`"${displayName}" 계정을 완전히 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return;
+  if (!confirm(`"${displayName}" 계정을 삭제하시겠습니까?`)) return;
   try {
-    await sb(`handover_users?id=eq.${userId}`, { method: 'DELETE' });
+    await sb(`handover_users?id=eq.${userId}`, { method:'DELETE' });
     await loadUsers();
-    showToast(`${displayName} 계정이 삭제되었습니다`, 'success');
-  } catch(e) { showToast('삭제 실패: ' + e.message, 'error'); }
+    showToast(`${displayName} 삭제됨`);
+  } catch(e) { showToast('삭제 실패'); }
 }
 
 async function toggleUser(userId, isActive) {
   try {
-    await sb(`handover_users?id=eq.${userId}`, { method: 'PATCH', body: JSON.stringify({ is_active: !isActive }) });
+    await sb(`handover_users?id=eq.${userId}`, { method:'PATCH', body: JSON.stringify({ is_active: !isActive }) });
     await loadUsers();
-    showToast(isActive ? '계정이 비활성화되었습니다' : '계정이 활성화되었습니다', 'success');
-  } catch(e) { showToast('오류: ' + e.message, 'error'); }
+    showToast(isActive ? '계정 비활성화됨' : '계정 활성화됨');
+  } catch(e) { showToast('오류: ' + e.message); }
 }
 
 let editingCatId = null;
-
 function openCatEditModal(catId, currentTitle) {
   editingCatId = catId;
   document.getElementById('cat-edit-input').value = currentTitle;
   document.getElementById('cat-edit-modal').classList.add('open');
 }
-
-function closeCatEditModal() {
-  document.getElementById('cat-edit-modal').classList.remove('open');
-  editingCatId = null;
-}
-
+function closeCatEditModal() { document.getElementById('cat-edit-modal').classList.remove('open'); editingCatId = null; }
 async function saveCatEdit() {
   const newTitle = document.getElementById('cat-edit-input').value.trim();
-  if (!newTitle) { showToast('카테고리 이름을 입력하세요', 'error'); return; }
+  if (!newTitle) { showToast('이름을 입력하세요'); return; }
   try {
-    await sb(`handover_categories?id=eq.${editingCatId}`, { method: 'PATCH', body: JSON.stringify({ title: newTitle }) });
-    closeCatEditModal();
-    await loadAdminItems();
-    await loadChecklist();
-    showToast('카테고리가 수정되었습니다 ✅', 'success');
-  } catch(e) { showToast('수정 실패: ' + e.message, 'error'); }
+    await sb(`handover_categories?id=eq.${editingCatId}`, { method:'PATCH', body: JSON.stringify({ title: newTitle }) });
+    closeCatEditModal(); await loadAdminItems(); await loadChecklist();
+    showToast('카테고리 수정됨 ✅');
+  } catch(e) { showToast('수정 실패'); }
 }
 
 async function deleteCategory(catId, catTitle) {
   if (!confirm(`"${catTitle}" 카테고리를 삭제하시겠습니까?\n포함된 항목도 모두 삭제됩니다.`)) return;
   try {
-    await sb(`handover_categories?id=eq.${catId}`, { method: 'DELETE' });
-    await loadAdminItems();
-    await loadChecklist();
-    showToast('카테고리가 삭제되었습니다', 'success');
-  } catch(e) { showToast('삭제 실패: ' + e.message, 'error'); }
+    await sb(`handover_categories?id=eq.${catId}`, { method:'DELETE' });
+    await loadAdminItems(); await loadChecklist();
+    showToast('카테고리 삭제됨');
+  } catch(e) { showToast('삭제 실패'); }
 }
 
 async function addCategory() {
   const title = document.getElementById('new-category-title').value.trim();
-  if (!title) { showToast('카테고리 이름을 입력하세요', 'error'); return; }
+  if (!title) { showToast('이름을 입력하세요'); return; }
   try {
-    await sb('handover_categories', { method: 'POST', body: JSON.stringify({ title, order_index: allCategories.length + 1 }) });
-    document.getElementById('new-category-title').value = '';
+    await sb('handover_categories', { method:'POST', body: JSON.stringify({ title, order_index: allCategories.length+1 }) });
+    document.getElementById('new-category-title').value='';
     await loadAdminItems();
-    showToast(`"${title}" 카테고리 추가됨 ✅`, 'success');
-  } catch(e) { showToast('추가 실패: ' + e.message, 'error'); }
+    showToast(`"${title}" 추가됨 ✅`);
+  } catch(e) { showToast('추가 실패'); }
 }
 
 async function addItem() {
   const categoryId = document.getElementById('new-item-category').value;
   const title = document.getElementById('new-item-title').value.trim();
   const description = document.getElementById('new-item-desc').value.trim();
-  if (!categoryId || !title) { showToast('카테고리와 제목을 입력하세요', 'error'); return; }
+  if (!categoryId||!title) { showToast('카테고리와 제목을 입력하세요'); return; }
   try {
-    await sb('handover_items', { method: 'POST', body: JSON.stringify({ category_id: categoryId, title, description: description || null, order_index: allItems.length + 1 }) });
-    document.getElementById('new-item-title').value = '';
-    document.getElementById('new-item-desc').value = '';
+    await sb('handover_items', { method:'POST', body: JSON.stringify({ category_id:categoryId, title, description:description||null, order_index: allItems.length+1 }) });
+    document.getElementById('new-item-title').value='';
+    document.getElementById('new-item-desc').value='';
     await loadAdminItems();
-    showToast('항목이 추가되었습니다 ✅', 'success');
-  } catch(e) { showToast('추가 실패: ' + e.message, 'error'); }
+    showToast('항목 추가됨 ✅');
+  } catch(e) { showToast('추가 실패'); }
 }
 
 async function deleteItem(itemId) {
   if (!confirm('이 항목을 삭제하시겠습니까?')) return;
   try {
-    await sb(`handover_items?id=eq.${itemId}`, { method: 'DELETE' });
+    await sb(`handover_items?id=eq.${itemId}`, { method:'DELETE' });
     await loadAdminItems();
-    showToast('항목이 삭제되었습니다', 'success');
-  } catch(e) { showToast('삭제 실패: ' + e.message, 'error'); }
+    showToast('항목 삭제됨');
+  } catch(e) { showToast('삭제 실패'); }
 }
 
-// ── Tabs ──
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-checklist').style.display = tab === 'checklist' ? 'block' : 'none';
-  document.getElementById('tab-add').style.display = tab === 'add' ? 'block' : 'none';
-  document.getElementById('tab-admin').style.display = tab === 'admin' ? 'block' : 'none';
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    if ((tab === 'checklist' && b.textContent.includes('체크')) ||
-        (tab === 'add' && b.textContent.includes('항목')) ||
-        (tab === 'admin' && b.textContent.includes('관리'))) b.classList.add('active');
-  });
-  if (tab === 'admin') loadAdmin();
-  if (tab === 'add') loadUserAddTab();
-}
-
-// ── User Add Tab ──
 async function loadUserAddTab() {
   try {
     const cats = await sb('handover_categories?order=order_index');
     allCategories = cats;
     const sel = document.getElementById('user-item-category');
-    sel.innerHTML = '<option value="">카테고리 선택...</option>' + cats.map(c => `<option value="${c.id}">${escHtml(c.title)}</option>`).join('');
-  } catch(e) { showToast('카테고리 로드 실패', 'error'); }
+    sel.innerHTML = '<option value="">카테고리 선택...</option>' + cats.map(c=>`<option value="${c.id}">${escHtml(c.title)}</option>`).join('');
+  } catch(e) {}
 }
 
 async function userAddCategory() {
   const title = document.getElementById('user-category-title').value.trim();
-  if (!title) { showToast('카테고리 이름을 입력하세요', 'error'); return; }
+  if (!title) { showToast('이름을 입력하세요'); return; }
   try {
-    await sb('handover_categories', { method: 'POST', body: JSON.stringify({ title, order_index: allCategories.length + 1 }) });
-    document.getElementById('user-category-title').value = '';
+    await sb('handover_categories', { method:'POST', body: JSON.stringify({ title, order_index: allCategories.length+1 }) });
+    document.getElementById('user-category-title').value='';
     await loadUserAddTab();
-    showToast(`"${title}" 카테고리 추가됨 ✅`, 'success');
-  } catch(e) { showToast('추가 실패: ' + e.message, 'error'); }
+    showToast(`"${title}" 추가됨 ✅`);
+  } catch(e) { showToast('추가 실패'); }
 }
 
 async function userAddItem() {
   const categoryId = document.getElementById('user-item-category').value;
   const title = document.getElementById('user-item-title').value.trim();
   const description = document.getElementById('user-item-desc').value.trim();
-  if (!categoryId) { showToast('카테고리를 선택하세요', 'error'); return; }
-  if (!title) { showToast('항목 제목을 입력하세요', 'error'); return; }
+  if (!categoryId) { showToast('카테고리를 선택하세요'); return; }
+  if (!title) { showToast('제목을 입력하세요'); return; }
   try {
-    await sb('handover_items', { method: 'POST', body: JSON.stringify({ category_id: categoryId, title, description: description || null, order_index: (allItems?.length || 0) + 1 }) });
-    document.getElementById('user-item-title').value = '';
-    document.getElementById('user-item-desc').value = '';
-    showToast('항목이 추가되었습니다 ✅', 'success');
-  } catch(e) { showToast('추가 실패: ' + e.message, 'error'); }
+    await sb('handover_items', { method:'POST', body: JSON.stringify({ category_id:categoryId, title, description:description||null, order_index:(allItems?.length||0)+1 }) });
+    document.getElementById('user-item-title').value='';
+    document.getElementById('user-item-desc').value='';
+    showToast('항목 추가됨 ✅');
+  } catch(e) { showToast('추가 실패'); }
 }
 
-// ── Toast ──
-function showToast(msg, type = '') {
+function switchTab(tab) {
+  ['checklist','add','admin'].forEach(t => {
+    document.getElementById(`tab-${t}`).style.display = t===tab ? 'block' : 'none';
+    const navBtn = document.getElementById(`nav-${t}`);
+    if (navBtn) navBtn.classList.toggle('active', t===tab);
+  });
+  document.querySelectorAll('.desktop-tab-bar .tab-btn').forEach(b => {
+    b.classList.toggle('active',
+      (tab==='checklist' && b.textContent.includes('체크')) ||
+      (tab==='add' && b.textContent.includes('항목')) ||
+      (tab==='admin' && b.textContent.includes('관리'))
+    );
+  });
+  if (tab==='admin') loadAdmin();
+  if (tab==='add') loadUserAddTab();
+}
+
+function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'show ' + type;
-  setTimeout(() => { t.className = ''; }, 3000);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ── Enter key login ──
-document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-document.getElementById('login-username').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('login-password').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+document.getElementById('login-username').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
-// ── Session restore ──
 const saved = sessionStorage.getItem('handover_user');
 if (saved) { try { currentUser = JSON.parse(saved); showApp(); } catch(e) {} }
 </script>
 </body>
 </html>
-
