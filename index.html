@@ -666,9 +666,11 @@ function escHtml(str) {
 }
 
 function clickItem(itemId, itemTitle) {
+  console.log('clickItem:', itemId, itemTitle);
   const myChecks = (allChecks||[]).filter(c => c.user_id === currentUser.id);
   if (myChecks.find(c => c.item_id === itemId)) { uncheckItem(itemId); return; }
   pendingItemId = itemId;
+  console.log('pendingItemId 설정됨:', pendingItemId);
   document.getElementById('note-item-title').textContent = itemTitle;
   document.getElementById('note-input').value = '';
   document.getElementById('note-modal').classList.add('open');
@@ -677,14 +679,20 @@ function clickItem(itemId, itemTitle) {
 function closeNoteModal() { document.getElementById('note-modal').classList.remove('open'); pendingItemId = null; }
 
 async function saveCheck() {
-  if (!pendingItemId) return;
+  console.log('saveCheck called, pendingItemId:', pendingItemId);
+  if (!pendingItemId) { showToast('오류: 항목 ID 없음'); return; }
   const note = document.getElementById('note-input').value.trim();
   closeNoteModal();
   try {
-    await sb('handover_checks', { method: 'POST', body: JSON.stringify({ item_id: pendingItemId, user_id: currentUser.id, note: note||null }) });
+    const payload = { item_id: pendingItemId, user_id: currentUser.id, note: note||null };
+    console.log('저장할 데이터:', payload);
+    await sb('handover_checks', { method: 'POST', body: JSON.stringify(payload) });
     await loadChecklist();
     showToast('완료 처리되었습니다 ✅');
-  } catch(e) { showToast('저장 실패: ' + e.message); }
+  } catch(e) { 
+    console.error('saveCheck 오류:', e);
+    showToast('저장 실패: ' + e.message); 
+  }
 }
 
 async function uncheckItem(itemId) {
