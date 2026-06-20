@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>업무 인수인계</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
@@ -595,16 +595,19 @@ async function loadChecklist() {
   try {
     allCategories = await sb('handover_categories?order=order_index');
     allItems = await sb('handover_items?order=order_index');
-    allChecks = await sb(`handover_checks?user_id=eq.${currentUser.id}`);
+    // 모든 사용자의 체크 기록 + 사용자 이름 조회
+    allChecks = await sb(`handover_checks?select=*,handover_users(display_name)`);
     renderChecklist();
   } catch(e) { showToast('데이터 로드 실패'); }
 }
 
 function renderChecklist() {
   const container = document.getElementById('checklist-container');
-  const checkedIds = new Set((allChecks || []).map(c => c.item_id));
+  // 내 체크 기록
+  const myChecks = (allChecks||[]).filter(c => c.user_id === currentUser.id);
+  const myCheckedIds = new Set(myChecks.map(c => c.item_id));
   const total = allItems.length;
-  const done = allItems.filter(i => checkedIds.has(i.id)).length;
+  const done = allItems.filter(i => myCheckedIds.has(i.id)).length;
   document.getElementById('progress-text').textContent = `${done} / ${total} 완료`;
   document.getElementById('progress-bar').style.width = total ? `${Math.round(done/total*100)}%` : '0%';
   if (allCategories.length === 0) {
@@ -614,7 +617,7 @@ function renderChecklist() {
   container.innerHTML = allCategories.map(cat => {
     const items = allItems.filter(i => i.category_id === cat.id);
     if (items.length === 0) return '';
-    const catDone = items.filter(i => checkedIds.has(i.id)).length;
+    const catDone = items.filter(i => myCheckedIds.has(i.id)).length;
     return `<div class="category-block">
       <div class="category-header" onclick="toggleCategory('cat-${cat.id}')">
         <div class="category-title"><span>${cat.title}</span><span class="category-count">${catDone}/${items.length}</span></div>
@@ -622,15 +625,19 @@ function renderChecklist() {
       </div>
       <div class="category-items" id="cat-${cat.id}">
         ${items.map(item => {
-          const checked = checkedIds.has(item.id);
-          const checkData = (allChecks||[]).find(c => c.item_id === item.id);
+          const myCheck = myChecks.find(c => c.item_id === item.id);
+          const checked = !!myCheck;
+          // 다른 사람들도 완료했는지
+          const othersChecked = (allChecks||[]).filter(c => c.item_id === item.id && c.user_id !== currentUser.id);
+          const othersText = othersChecked.map(c => c.handover_users?.display_name || '?').join(', ');
           return `<div class="checklist-item ${checked?'checked':''}" onclick="clickItem('${item.id}','${escHtml(item.title)}')">
             <div class="check-box">${checked?'✓':''}</div>
             <div class="item-content">
               <div class="item-title">${escHtml(item.title)}</div>
               ${item.description?`<div class="item-desc">${escHtml(item.description)}</div>`:''}
-              ${checkData?.note?`<div class="item-note">💬 ${escHtml(checkData.note)}</div>`:''}
-              ${checked?`<div class="item-meta">완료 · ${new Date(checkData.checked_at).toLocaleDateString('ko-KR')}</div>`:''}
+              ${myCheck?.note?`<div class="item-note">💬 ${escHtml(myCheck.note)}</div>`:''}
+              ${checked?`<div class="item-meta">✅ 내가 완료 · ${new Date(myCheck.checked_at).toLocaleDateString('ko-KR')}</div>`:''}
+              ${othersText?`<div class="item-meta" style="color:var(--accent);">👤 ${escHtml(othersText)}도 완료</div>`:''}
             </div>
           </div>`;
         }).join('')}
@@ -652,7 +659,8 @@ function escHtml(str) {
 }
 
 function clickItem(itemId, itemTitle) {
-  if ((allChecks||[]).find(c => c.item_id === itemId)) { uncheckItem(itemId); return; }
+  const myChecks = (allChecks||[]).filter(c => c.user_id === currentUser.id);
+  if (myChecks.find(c => c.item_id === itemId)) { uncheckItem(itemId); return; }
   pendingItemId = itemId;
   document.getElementById('note-item-title').textContent = itemTitle;
   document.getElementById('note-input').value = '';
