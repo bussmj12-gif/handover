@@ -627,17 +627,16 @@ function renderChecklist() {
     const catDone = items.filter(i => myCheckedIds.has(i.id)).length;
     return `<div class="category-block">
       <div class="category-header" onclick="toggleCategory('cat-${cat.id}')">
-        <div class="category-title"><span>${cat.title}</span><span class="category-count">${catDone}/${items.length}</span></div>
+        <div class="category-title"><span>${escHtml(cat.title)}</span><span class="category-count">${catDone}/${items.length}</span></div>
         <span class="category-chevron open" id="chevron-cat-${cat.id}">▼</span>
       </div>
       <div class="category-items" id="cat-${cat.id}">
         ${items.map(item => {
           const myCheck = myChecks.find(c => c.item_id === item.id);
           const checked = !!myCheck;
-          // 다른 사람들도 완료했는지
           const othersChecked = (allChecks||[]).filter(c => c.item_id === item.id && c.user_id !== currentUser.id);
           const othersText = othersChecked.map(c => c.display_name).join(', ');
-          return `<div class="checklist-item ${checked?'checked':''}" onclick="clickItem('${item.id}','${escHtml(item.title)}')">
+          return `<div class="checklist-item ${checked?'checked':''}" data-item-id="${item.id}" data-item-title="${escHtml(item.title)}">
             <div class="check-box">${checked?'✓':''}</div>
             <div class="item-content">
               <div class="item-title">${escHtml(item.title)}</div>
@@ -651,8 +650,16 @@ function renderChecklist() {
       </div>
     </div>`;
   }).join('');
-}
 
+  // 이벤트 위임으로 클릭 처리
+  container.onclick = function(e) {
+    const item = e.target.closest('.checklist-item');
+    if (!item) return;
+    const itemId = item.dataset.itemId;
+    const itemTitle = item.dataset.itemTitle;
+    if (!itemId) return;
+    clickItem(itemId, itemTitle);
+  };
 function toggleCategory(id) {
   const el = document.getElementById(id);
   const chevron = document.getElementById('chevron-' + id);
