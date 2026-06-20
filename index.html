@@ -696,7 +696,8 @@ async function loadUsers() {
         ${u.id !== currentUser.id ? `
         <button class="btn btn-sm ${u.is_active ? 'btn-danger' : 'btn-ghost'}" onclick="toggleUser('${u.id}', ${u.is_active})">
           ${u.is_active ? '비활성화' : '활성화'}
-        </button>` : '<span style="font-size:11px;color:var(--text3);">본인</span>'}
+        </button>
+        <button class="btn btn-sm btn-danger" onclick="deleteUser('${u.id}', '${escHtml(u.display_name)}')" style="background:rgba(239,68,68,0.25);">🗑️</button>` : '<span style="font-size:11px;color:var(--text3);">본인</span>'}
       </div>`).join('');
   } catch(e) { showToast('사용자 목록 로드 실패', 'error'); }
 }
@@ -743,6 +744,15 @@ async function addUser() {
     await loadUsers();
     showToast(`${displayName} 계정이 생성되었습니다 ✅`, 'success');
   } catch(e) { showToast('추가 실패: ' + e.message, 'error'); }
+}
+
+async function deleteUser(userId, displayName) {
+  if (!confirm(`"${displayName}" 계정을 완전히 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return;
+  try {
+    await sb(`handover_users?id=eq.${userId}`, { method: 'DELETE' });
+    await loadUsers();
+    showToast(`${displayName} 계정이 삭제되었습니다`, 'success');
+  } catch(e) { showToast('삭제 실패: ' + e.message, 'error'); }
 }
 
 async function toggleUser(userId, isActive) {
