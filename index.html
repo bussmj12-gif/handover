@@ -183,6 +183,7 @@
     </div>
     <div class="topbar-right">
       <div class="user-badge"><div class="av" id="uav"></div><span id="uname"></span><span class="badge-admin" id="abadge" style="display:none">ADMIN</span></div>
+      <button class="btn-logout" onclick="registerPush()" style="font-size:18px;padding:4px 8px;" title="알림 설정">🔔</button>
       <button class="btn-logout" onclick="doLogout()">로그아웃</button>
     </div>
   </div>
@@ -298,9 +299,56 @@
 const SB_URL = 'https://ylppkvkmdszcidcrctsw.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlscHBrdmttZHN6Y2lkY3JjdHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5Njc1MjEsImV4cCI6MjA5NjU0MzUyMX0.sOoT9Git-XxRmV72GgWejZbdSVqsLMH2Qkk3XeXakYM';
 const HDR = {'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'};
+const PUSH_SERVER = 'https://handover-push-server.vercel.app';
 
 let currentUser=null, pendingItemId=null, editingCatId=null;
 let allCategories=[], allItems=[], allChecks=[];
+
+// ── Push Notification ──
+async function registerPush(){
+  if(!('serviceWorker' in navigator)||!('PushManager' in window)){
+    showToast('이 브라우저는 알림을 지원하지 않습니다');return;
+  }
+  try{
+    const perm=await Notification.requestPermission();
+    if(perm!=='granted'){showToast('알림 권한이 거부되었습니다');return;}
+
+    const reg=await navigator.serviceWorker.register('/handover/sw.js');
+    await navigator.serviceWorker.ready;
+
+    const res=await fetch(PUSH_SERVER+'/api/vapid-public-key');
+    const {publicKey}=await res.json();
+
+    const sub=await reg.pushManager.subscribe({
+      userVisibleOnly:true,
+      applicationServerKey:urlBase64ToUint8Array(publicKey)
+    });
+
+    await sb('push_subscriptions',{method:'POST',body:JSON.stringify({
+      user_id:currentUser.id,
+      subscription:sub
+    })});
+
+    showToast('알림이 설정되었습니다 🔔');
+  }catch(e){showToast('알림 설정 실패: '+e.message);}
+}
+
+function urlBase64ToUint8Array(base64String){
+  const padding='='.repeat((4-base64String.length%4)%4);
+  const base64=(base64String+padding).replace(/-/g,'+').replace(/_/g,'/');
+  const rawData=window.atob(base64);
+  return Uint8Array.from([...rawData].map(c=>c.charCodeAt(0)));
+}
+
+async function sendPushToAll(title,body){
+  try{
+    await fetch(PUSH_SERVER+'/api/send-push',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({title,body,excludeUserId:currentUser.id})
+    });
+  }catch(e){console.log('푸시 전송 오류:',e);}
+}
 
 async function sha256(msg){
   const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
@@ -579,6 +627,7 @@ async function addItem(){
     await sb('handover_items',{method:'POST',body:JSON.stringify({category_id:cid,title:t,description:d||null,order_index:allItems.length+1})});
     document.getElementById('new-item-title').value='';
     document.getElementById('new-item-desc').value='';
+    sendPushToAll('📋 새 인수인계 항목',currentUser.display_name+'님이 추가: '+t);
     await loadAdminItems();showToast('항목 추가됨 ✅');
   }catch(e){showToast('실패: '+e.message);}
 }
@@ -619,6 +668,7 @@ async function userAddItem(){
     await sb('handover_items',{method:'POST',body:JSON.stringify({category_id:cid,title:t,description:d||null,order_index:(allItems.length||0)+1})});
     document.getElementById('ui-title').value='';
     document.getElementById('ui-desc').value='';
+    sendPushToAll('📋 새 인수인계 항목',currentUser.display_name+'님이 추가: '+t);
     showToast('항목 추가됨 ✅');
   }catch(e){showToast('실패: '+e.message);}
 }
