@@ -328,13 +328,13 @@ async function doLogin(){
     const rows=await sb('handover_users?username=eq.'+encodeURIComponent(user)+'&password_hash=eq.'+hash+'&is_active=eq.true&select=*');
     if(!rows||rows.length===0){err.textContent='아이디 또는 비밀번호가 올바르지 않습니다.';return;}
     currentUser=rows[0];
-    sessionStorage.setItem('hu',JSON.stringify(currentUser));
+    localStorage.setItem('hu',JSON.stringify(currentUser));
     showApp();
   }catch(e){err.textContent='오류: '+e.message;}
 }
 
 function doLogout(){
-  sessionStorage.removeItem('hu');
+  localStorage.removeItem('hu');
   currentUser=null;
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('app').style.display='none';
@@ -653,7 +653,7 @@ document.getElementById('inp-pass').addEventListener('keydown',function(e){if(e.
 document.getElementById('inp-user').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 
 // Session restore
-const saved=sessionStorage.getItem('hu');
+const saved=localStorage.getItem('hu');
 if(saved){try{currentUser=JSON.parse(saved);showApp();}catch(e){}}
 </script>
 </body>
