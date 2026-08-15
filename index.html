@@ -367,12 +367,39 @@ const UI_TEXT={
 
 function t(key){return (UI_TEXT[currentLang]||UI_TEXT.ko)[key]||key;}
 
-function setLang(lang){
+async function setLang(lang){
   currentLang=lang;
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.lang-btn').forEach(b=>{if((lang==='ko'&&b.textContent==='한')||(lang==='en'&&b.textContent==='EN')||(lang==='ne'&&b.textContent==='ने'))b.classList.add('active');});
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    if((lang==='ko'&&b.textContent==='한')||(lang==='en'&&b.textContent==='EN')||(lang==='ne'&&b.textContent==='ने'))b.classList.add('active');
+  });
   updateUIText();
-  renderChecklist();
+  if(lang==='ko'){
+    renderChecklist();
+  }else{
+    // 번역 로딩 표시
+    document.getElementById('cl-container').innerHTML='<div class="loading"><div class="spin"></div><br>'+t('translating')+'</div>';
+    await translateAllItems();
+    renderChecklist();
+  }
+}
+
+async function translateAllItems(){
+  // 모든 항목 제목/설명 번역
+  for(const item of allItems){
+    if(item.title){
+      item['title_'+currentLang]=await translateText(item.title,currentLang);
+    }
+    if(item.description){
+      item['desc_'+currentLang]=await translateText(item.description,currentLang);
+    }
+  }
+  // 카테고리 제목 번역
+  for(const cat of allCategories){
+    if(cat.title){
+      cat['title_'+currentLang]=await translateText(cat.title,currentLang);
+    }
+  }
 }
 
 function updateUIText(){
@@ -541,9 +568,10 @@ function renderChecklist(){
     if(!items.length)return;
     const isEdu=cat.type==='education';
     const catDone=isEdu?null:items.filter(i=>myIds.has(i.id)).length;
+    const catTitle=cat['title_'+currentLang]||cat.title;
     html+='<div class="cat-block">';
     html+='<div class="cat-hdr" onclick="toggleCat(\''+cat.id+'\')">';
-    html+='<div class="cat-title"><span>'+h(cat.title)+'</span>';
+    html+='<div class="cat-title"><span>'+h(catTitle)+'</span>';
     if(isEdu)html+='<span class="cat-type-badge education">📚 교육</span>';
     else html+='<span class="cat-count">'+catDone+'/'+items.length+'</span>';
     html+='</div>';
@@ -551,20 +579,24 @@ function renderChecklist(){
     html+='<div class="cat-items" id="ci-'+cat.id+'">';
     items.forEach(function(item){
       if(isEdu){
+        const itemTitle=item['title_'+currentLang]||item.title;
+        const itemDesc=item['desc_'+currentLang]||item.description;
         html+='<div class="cl-item" data-id="'+item.id+'" data-edu="1" data-title="'+h(item.title)+'">';
         html+='<div class="edu-icon">📖</div>';
-        html+='<div class="item-con"><div class="item-ttl">'+h(item.title)+'</div>';
-        if(item.description)html+='<div class="item-dsc">'+h(item.description)+'</div>';
+        html+='<div class="item-con"><div class="item-ttl">'+h(itemTitle)+'</div>';
+        if(itemDesc)html+='<div class="item-dsc">'+h(itemDesc)+'</div>';
         html+='</div><div class="item-arrow">›</div></div>';
       }else{
+        const itemTitle=item['title_'+currentLang]||item.title;
+        const itemDesc=item['desc_'+currentLang]||item.description;
         const myChk=myChecks.find(c=>c.item_id===item.id);
         const checked=!!myChk;
         const others=allChecks.filter(c=>c.item_id===item.id&&c.user_id!==currentUser.id);
         const othTxt=others.map(c=>c.dname).join(', ');
         html+='<div class="cl-item'+(checked?' checked':'')+'" data-id="'+item.id+'" data-title="'+h(item.title)+'">';
         html+='<div class="chk-box">'+(checked?'✓':'')+'</div>';
-        html+='<div class="item-con"><div class="item-ttl">'+h(item.title)+'</div>';
-        if(item.description)html+='<div class="item-dsc">'+h(item.description)+'</div>';
+        html+='<div class="item-con"><div class="item-ttl">'+h(itemTitle)+'</div>';
+        if(itemDesc)html+='<div class="item-dsc">'+h(itemDesc)+'</div>';
         if(myChk&&myChk.note)html+='<div class="item-nt">💬 '+h(myChk.note)+'</div>';
         if(checked)html+='<div class="item-mt">✅ 내가 완료 · '+new Date(myChk.checked_at).toLocaleDateString('ko-KR')+'</div>';
         if(othTxt)html+='<div class="item-mt" style="color:var(--accent)">👤 '+h(othTxt)+'도 완료</div>';
