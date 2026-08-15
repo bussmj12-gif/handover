@@ -321,7 +321,7 @@
 </div>
 
 <!-- 완료 처리 모달 -->
-<div class="modal-ov" id="note-modal">
+<div class="modal-ov" id="note-modal" onclick="if(event.target===this)closeNoteModal()">
   <div class="modal">
     <div class="modal-handle"></div>
     <h3>✏️ 완료 처리</h3>
@@ -335,7 +335,7 @@
 </div>
 
 <!-- 교육자료 열람 모달 -->
-<div class="modal-ov" id="edu-modal">
+<div class="modal-ov" id="edu-modal" onclick="if(event.target===this)closeEduModal()">
   <div class="modal">
     <div class="modal-handle"></div>
     <h3 id="edu-modal-title"></h3>
@@ -582,6 +582,7 @@ function renderChecklist(){
   con.onclick=function(e){
     const el=e.target.closest('.cl-item');
     if(!el)return;
+    e.stopPropagation();
     const id=el.getAttribute('data-id');
     const title=el.getAttribute('data-title');
     const isEdu=el.getAttribute('data-edu')==='1';
