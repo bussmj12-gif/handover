@@ -353,7 +353,6 @@ const SB_URL='https://ylppkvkmdszcidcrctsw.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlscHBrdmttZHN6Y2lkY3JjdHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5Njc1MjEsImV4cCI6MjA5NjU0MzUyMX0.sOoT9Git-XxRmV72GgWejZbdSVqsLMH2Qkk3XeXakYM';
 const HDR={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'};
 const PUSH_SERVER='https://handover-push-server.vercel.app';
-const ANTHROPIC_KEY='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';
 
 let currentUser=null,pendingItemId=null,editingCatId=null;
 let allCategories=[],allItems=[],allChecks=[];
@@ -407,21 +406,18 @@ async function translateText(text,targetLang){
     const cached=await sb('translation_cache?source_text=eq.'+encodeURIComponent(text)+'&target_lang=eq.'+targetLang+'&select=translated_text');
     if(cached&&cached.length>0)return cached[0].translated_text;
 
-    // Claude API 번역
-    const langName=targetLang==='en'?'English':'Nepali (नेपाली)';
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+    // Vercel 서버를 통한 번역
+    const res=await fetch(PUSH_SERVER+'/api/translate',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_KEY,'anthropic-version':'2023-06-01'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',max_tokens:1000,
-        messages:[{role:'user',content:'Translate the following Korean text to '+langName+'. Return only the translated text, nothing else:\n\n'+text}]
-      })
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({text,targetLang})
     });
     const data=await res.json();
-    const translated=data.content[0].text.trim();
+    if(!data.translated)return text;
+    const translated=data.translated;
 
     // 캐시 저장
-    await sb('translation_cache',{method:'POST',body:JSON.stringify({source_text:text,target_lang:targetLang,translated_text:translated})});
+    await sb('translation_cache',{method:'POST',body:JSON.stringify({source_text:text,target_lang:targetLang,translated_text:translated})}).catch(()=>{});
     return translated;
   }catch(e){return text;}
 }
