@@ -171,38 +171,55 @@
   .inv-section-hdr:active{background:var(--surface2);}
   .inv-section-title{font-weight:700;font-size:13px;display:flex;align-items:center;gap:7px;}
   .inv-section-body{background:var(--surface);border-radius:0 0 var(--radius) var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .inv-today-label{font-size:10px;font-weight:600;color:var(--accent);background:rgba(79,110,247,.07);padding:5px 13px;border-bottom:1px solid var(--border);}
   .inv-cat-hdr{background:var(--surface2);padding:6px 13px;font-size:11px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border);}
-  .inv-row{display:flex;align-items:center;gap:8px;padding:9px 13px;border-bottom:1px solid var(--border);}
+  .inv-row{display:flex;align-items:flex-start;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border);}
   .inv-row:last-child{border-bottom:none;}
-  .inv-name{flex:1;font-size:13px;font-weight:500;min-width:0;}
-  .inv-name-sub{font-size:10px;color:var(--text3);margin-top:1px;}
-  .inv-qty-box{display:flex;align-items:center;gap:5px;flex-shrink:0;}
-  .inv-qty-label{font-size:10px;color:var(--text3);white-space:nowrap;}
-  .inv-qty-inp{width:52px;text-align:center;padding:5px 4px;border:1.5px solid var(--border);border-radius:7px;font-size:14px;font-weight:700;background:var(--surface2);color:var(--text);font-family:inherit;-webkit-appearance:none;appearance:none;}
+  .inv-row-low{background:rgba(220,38,38,.03);}
+  .inv-name{flex:1;min-width:0;}
+  .inv-name-main{font-size:13px;font-weight:600;line-height:1.4;}
+  .inv-supplier{font-size:11px;color:var(--text3);font-weight:400;}
+  /* 기준 수량 표시 */
+  .inv-ref-row{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text3);margin-top:2px;}
+  .inv-ref-lbl{font-weight:700;color:var(--text3);}
+  .inv-ref-val{color:var(--text2);font-weight:600;}
+  .inv-ref-fri{color:var(--orange);font-weight:700;}
+  .inv-ref-sep{color:var(--border);margin:0 1px;}
+  /* 입력 영역 */
+  .inv-inputs{display:flex;gap:8px;flex-shrink:0;align-items:flex-start;}
+  .inv-input-group{display:flex;flex-direction:column;align-items:center;gap:3px;}
+  .inv-input-lbl{font-size:10px;font-weight:700;color:var(--text3);white-space:nowrap;}
+  .inv-input-row{display:flex;align-items:center;gap:3px;}
+  .inv-unit{font-size:10px;color:var(--text3);white-space:nowrap;}
+  .inv-qty-inp{width:54px;text-align:center;padding:6px 4px;border:1.5px solid var(--border);border-radius:7px;font-size:14px;font-weight:700;background:var(--surface2);color:var(--text);font-family:inherit;-webkit-appearance:none;appearance:none;}
   .inv-qty-inp:focus{border-color:var(--accent);background:#fff;outline:none;}
-  .inv-qty-inp.low{border-color:var(--red);background:rgba(220,38,38,.05);}
-  .inv-qty-inp.ok{border-color:var(--green);background:rgba(22,163,74,.05);}
-  .inv-min{font-size:10px;color:var(--text3);white-space:nowrap;text-align:right;}
+  .inv-qty-inp.low{border-color:var(--red);background:rgba(220,38,38,.07);}
+  .inv-qty-inp.ok{border-color:var(--green);background:rgba(22,163,74,.07);}
+  /* 발주 플랫폼 배지 */
   .inv-order-badge{font-size:9px;padding:2px 6px;border-radius:6px;font-weight:700;white-space:nowrap;flex-shrink:0;}
   .inv-order-badge.coupang{background:rgba(234,88,12,.12);color:var(--orange);}
   .inv-order-badge.foodpang{background:rgba(79,110,247,.12);color:var(--accent);}
   .inv-order-badge.direct{background:rgba(22,163,74,.12);color:var(--green);}
+  /* 필터 */
   .inv-toolbar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
   .inv-filter-btn{padding:5px 11px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;}
   .inv-filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  /* 발주 요약 모달 */
   .inv-summary-card{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;}
   .inv-summary-title{font-size:13px;font-weight:700;margin-bottom:10px;opacity:.9;}
-  .inv-summary-group{margin-bottom:10px;}
-  .inv-summary-group-title{font-size:11px;font-weight:700;opacity:.7;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;}
-  .inv-summary-item{font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;gap:8px;}
+  .inv-summary-group{margin-bottom:12px;}
+  .inv-summary-group-title{font-size:11px;font-weight:700;opacity:.7;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;}
+  .inv-summary-item{font-size:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
   .inv-summary-item:last-child{border-bottom:none;}
-  .inv-summary-empty{font-size:13px;text-align:center;padding:14px;opacity:.75;}
-  .inv-summary-count{font-size:10px;opacity:.7;white-space:nowrap;}
+  .inv-summary-empty{font-size:13px;text-align:center;padding:16px;opacity:.75;line-height:1.8;}
+  .inv-summary-count{font-size:10px;opacity:.65;}
+  /* 하단 고정바 */
   .inv-save-bar{position:sticky;bottom:calc(var(--nav-h) + 8px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 13px;box-shadow:0 4px 16px rgba(0,0,0,.1);display:flex;gap:8px;align-items:center;z-index:50;margin:10px 0;}
   .inv-save-info{flex:1;font-size:12px;color:var(--text2);}
   .inv-save-info strong{color:var(--red);}
   @media(min-width:640px){
     .inv-save-bar{bottom:20px;}
+    .inv-qty-inp{width:60px;}
   }
 
   @media(min-width:640px){
@@ -1053,177 +1070,189 @@ async function sendPushToAll(title,body){
 }
 
 // ── 재고관리 ──
+// 엑셀 원본 데이터: {cat, name, unit, minWd(평일기준), minFr(금요일기준), platform}
+// minWd/minFr 이 문자열이면 수량 표시용(예: "1~2 Box"), 숫자면 발주량 자동계산 가능
+// platform: 'coupang' | 'foodpang' | 'direct'
 const INV_DATA = {
   food: [
-    // 카테고리: 도우/치즈
-    {cat:'도우·치즈', name:'밀도우 350G', minWd:10, minFr:15, platform:'direct'},
-    {cat:'도우·치즈', name:'서울우유 펠렛치즈', minWd:5, minFr:8, platform:'direct'},
-    {cat:'도우·치즈', name:'썬리치 컬러드체다치즈', minWd:3, minFr:5, platform:'direct'},
-    // 카테고리: 육류/가금류
-    {cat:'육류·가금류', name:'사조 베이컨 슬라이스', minWd:5, minFr:8, platform:'direct'},
-    {cat:'육류·가금류', name:'닭정육', minWd:10, minFr:15, platform:'direct'},
-    {cat:'육류·가금류', name:'소고기', minWd:5, minFr:8, platform:'direct'},
-    {cat:'육류·가금류', name:'돼지불고기', minWd:5, minFr:8, platform:'direct'},
-    // 카테고리: 냉동 식품
-    {cat:'냉동식품', name:'사조오양 페파로니 1kg', minWd:3, minFr:5, platform:'coupang'},
-    {cat:'냉동식품', name:'깐쇼새우', minWd:5, minFr:8, platform:'foodpang'},
-    {cat:'냉동식품', name:'사세 버팔로윙', minWd:5, minFr:8, platform:'coupang'},
-    {cat:'냉동식품', name:'사세 치킨텐더', minWd:5, minFr:8, platform:'coupang'},
-    {cat:'냉동식품', name:'심플로트 고메 케이준프라이', minWd:5, minFr:8, platform:'coupang'},
-    // 카테고리: 면·파스타
-    {cat:'면·파스타', name:'라폰테 스파게티면', minWd:5, minFr:8, platform:'coupang'},
-    // 카테고리: 야채
-    {cat:'야채', name:'양파', minWd:5, minFr:8, platform:'direct'},
-    {cat:'야채', name:'마늘', minWd:3, minFr:5, platform:'direct'},
-    {cat:'야채', name:'방울토마토', minWd:3, minFr:5, platform:'direct'},
-    {cat:'야채', name:'루꼴라', minWd:2, minFr:3, platform:'direct'},
-    {cat:'야채', name:'바질', minWd:2, minFr:3, platform:'direct'},
-    {cat:'야채', name:'파프리카(빨강)', minWd:3, minFr:5, platform:'direct'},
-    {cat:'야채', name:'파프리카(노랑)', minWd:3, minFr:5, platform:'direct'},
-    {cat:'야채', name:'버섯', minWd:3, minFr:5, platform:'direct'},
-    {cat:'야채', name:'올리브(블랙)', minWd:2, minFr:3, platform:'direct'},
-    {cat:'야채', name:'레몬', minWd:5, minFr:8, platform:'direct'},
-    {cat:'야채', name:'라임', minWd:3, minFr:5, platform:'direct'},
-    // 카테고리: 통조림·소스
-    {cat:'통조림·소스', name:'토마토소스(통조림)', minWd:5, minFr:8, platform:'coupang'},
-    {cat:'통조림·소스', name:'올리브오일', minWd:2, minFr:3, platform:'coupang'},
-    {cat:'통조림·소스', name:'핫소스', minWd:2, minFr:3, platform:'coupang'},
-    {cat:'통조림·소스', name:'BBQ소스', minWd:2, minFr:3, platform:'coupang'},
-    {cat:'통조림·소스', name:'마요네즈', minWd:2, minFr:3, platform:'coupang'},
-    {cat:'통조림·소스', name:'케첩', minWd:2, minFr:3, platform:'coupang'},
-    {cat:'통조림·소스', name:'랜치소스', minWd:2, minFr:3, platform:'foodpang'},
-    {cat:'통조림·소스', name:'갈릭버터', minWd:2, minFr:3, platform:'direct'},
-    {cat:'통조림·소스', name:'허니머스타드', minWd:2, minFr:3, platform:'direct'},
-    {cat:'통조림·소스', name:'발사믹글레이즈', minWd:1, minFr:2, platform:'coupang'},
-    {cat:'통조림·소스', name:'크림소스(베이스)', minWd:3, minFr:5, platform:'foodpang'},
-    // 카테고리: 유제품·기타
-    {cat:'유제품·기타', name:'생크림', minWd:3, minFr:5, platform:'direct'},
-    {cat:'유제품·기타', name:'버터', minWd:3, minFr:5, platform:'direct'},
-    {cat:'유제품·기타', name:'달걀', minWd:10, minFr:15, platform:'direct'},
-    {cat:'유제품·기타', name:'식빵', minWd:5, minFr:8, platform:'direct'},
-    {cat:'유제품·기타', name:'밀가루', minWd:3, minFr:5, platform:'coupang'},
-    {cat:'유제품·기타', name:'설탕', minWd:2, minFr:3, platform:'coupang'},
-    {cat:'유제품·기타', name:'소금', minWd:2, minFr:3, platform:'coupang'},
-    {cat:'유제품·기타', name:'후추', minWd:2, minFr:3, platform:'coupang'},
-    {cat:'유제품·기타', name:'오레가노', minWd:1, minFr:2, platform:'coupang'},
-    {cat:'유제품·기타', name:'바질(건조)', minWd:1, minFr:2, platform:'coupang'},
+    // ── 도우·치즈
+    {cat:'도우·치즈', name:'밀도우 350G', supplier:'(주)대원식품', unit:'Box', minWd:'1~2', minFr:'7', platform:'direct'},
+    {cat:'도우·치즈', name:'신광 골드콘(옥수수가루)', supplier:'', unit:'', minWd:'□', minFr:'□', platform:'direct'},
+    {cat:'도우·치즈', name:'사조오양 페파로니 1kg', supplier:'', unit:'Pack', minWd:'3', minFr:'8', platform:'coupang'},
+    {cat:'도우·치즈', name:'서울우유 펠렛치즈 O (2.5kg)', supplier:'', unit:'bag', minWd:'14', minFr:'40', platform:'direct'},
+    {cat:'도우·치즈', name:'썬리치 컬러드체다치즈', supplier:'', unit:'bag', minWd:'8', minFr:'20', platform:'direct'},
+    // ── 냉동·육류
+    {cat:'냉동·육류', name:'깐쇼새우(72~80미) 900g', supplier:'재호식품', unit:'팩', minWd:'', minFr:'', platform:'foodpang'},
+    {cat:'냉동·육류', name:'사세 버팔로윙', supplier:'', unit:'봉', minWd:'', minFr:'', platform:'foodpang'},
+    {cat:'냉동·육류', name:'사세 치킨텐더', supplier:'', unit:'봉', minWd:'', minFr:'', platform:'foodpang'},
+    {cat:'냉동·육류', name:'사조 베이컨 슬라이스', supplier:'', unit:'팩', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'냉동·육류', name:'심플로트 고메 케이준프라이', supplier:'', unit:'봉', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'냉동·육류', name:'닭정육', supplier:'', unit:'kg', minWd:'', minFr:'', platform:'direct'},
+    {cat:'냉동·육류', name:'소고기', supplier:'', unit:'kg', minWd:'', minFr:'', platform:'direct'},
+    {cat:'냉동·육류', name:'돼지불고기', supplier:'', unit:'kg', minWd:'', minFr:'', platform:'direct'},
+    // ── 면·파스타
+    {cat:'면·파스타', name:'라폰테 스파게티면', supplier:'', unit:'봉', minWd:'', minFr:'', platform:'coupang'},
+    // ── 야채·신선
+    {cat:'야채·신선', name:'양파', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'마늘', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'방울토마토', supplier:'', unit:'팩', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'루꼴라', supplier:'', unit:'봉', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'바질(생)', supplier:'', unit:'팩', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'파프리카(빨강)', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'파프리카(노랑)', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'버섯', supplier:'', unit:'팩', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'올리브(블랙)', supplier:'', unit:'캔', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'레몬', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'야채·신선', name:'라임', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    // ── 소스·조미
+    {cat:'소스·조미', name:'토마토소스(통조림)', supplier:'', unit:'캔', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'소스·조미', name:'올리브오일', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'소스·조미', name:'핫소스', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'소스·조미', name:'BBQ소스', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'소스·조미', name:'마요네즈', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'소스·조미', name:'케첩', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'소스·조미', name:'랜치소스', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    {cat:'소스·조미', name:'갈릭버터', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
+    {cat:'소스·조미', name:'허니머스타드', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    {cat:'소스·조미', name:'발사믹글레이즈', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'소스·조미', name:'크림소스(베이스)', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
+    {cat:'소스·조미', name:'바질(건조)', supplier:'', unit:'통', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'소스·조미', name:'오레가노', supplier:'', unit:'통', minWd:'', minFr:'', platform:'coupang'},
+    // ── 유제품·기타
+    {cat:'유제품·기타', name:'생크림', supplier:'', unit:'팩', minWd:'', minFr:'', platform:'direct'},
+    {cat:'유제품·기타', name:'버터', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'유제품·기타', name:'달걀', supplier:'', unit:'판', minWd:'', minFr:'', platform:'direct'},
+    {cat:'유제품·기타', name:'식빵', supplier:'', unit:'봉', minWd:'', minFr:'', platform:'direct'},
+    {cat:'유제품·기타', name:'밀가루', supplier:'', unit:'kg', minWd:'', minFr:'', platform:'coupang'},
   ],
   supply: [
-    // 카테고리: 세제·위생
-    {cat:'세제·위생', name:'자동세척기 린스', minWd:1, platform:'direct'},
-    {cat:'세제·위생', name:'자동세척기 세제', minWd:1, platform:'direct'},
-    {cat:'세제·위생', name:'주방세제', minWd:2, platform:'coupang'},
-    {cat:'세제·위생', name:'소독용 에탄올', minWd:2, platform:'coupang'},
-    {cat:'세제·위생', name:'위생장갑(라텍스)', minWd:2, platform:'coupang'},
-    {cat:'세제·위생', name:'위생장갑(니트릴)', minWd:2, platform:'coupang'},
-    {cat:'세제·위생', name:'일회용 앞치마', minWd:10, platform:'coupang'},
-    {cat:'세제·위생', name:'부직포 행주', minWd:5, platform:'coupang'},
-    // 카테고리: 포장재
-    {cat:'포장재', name:'피자 박스(S)', minWd:20, platform:'direct'},
-    {cat:'포장재', name:'피자 박스(M)', minWd:20, platform:'direct'},
-    {cat:'포장재', name:'피자 박스(L)', minWd:20, platform:'direct'},
-    {cat:'포장재', name:'유산지', minWd:50, platform:'direct'},
-    {cat:'포장재', name:'포장 봉투', minWd:30, platform:'direct'},
-    {cat:'포장재', name:'스카치 테이프', minWd:5, platform:'coupang'},
-    {cat:'포장재', name:'포스 용지', minWd:5, platform:'coupang'},
-    // 카테고리: 잔류
-    {cat:'잔류(홀용품)', name:'레드락잔', minWd:10, platform:'direct'},
-    {cat:'잔류(홀용품)', name:'흑맥주잔', minWd:10, platform:'direct'},
-    {cat:'잔류(홀용품)', name:'스텔라잔', minWd:10, platform:'direct'},
-    {cat:'잔류(홀용품)', name:'빅웨이브잔', minWd:10, platform:'direct'},
-    {cat:'잔류(홀용품)', name:'하이볼잔', minWd:10, platform:'direct'},
-    {cat:'잔류(홀용품)', name:'에이드잔', minWd:10, platform:'direct'},
-    // 카테고리: 기타
-    {cat:'기타비품', name:'홀 전구', minWd:5, platform:'coupang'},
-    {cat:'기타비품', name:'바 전구', minWd:5, platform:'coupang'},
-    {cat:'기타비품', name:'알루미늄 호일', minWd:3, platform:'coupang'},
-    {cat:'기타비품', name:'비닐랩', minWd:3, platform:'coupang'},
-    {cat:'기타비품', name:'이쑤시개', minWd:5, platform:'direct'},
-    {cat:'기타비품', name:'냅킨', minWd:10, platform:'direct'},
+    // ── 세제·위생
+    {cat:'세제·위생', name:'자동세척기 린스', supplier:'', unit:'통', minWd:'1', minFr:'', platform:'direct'},
+    {cat:'세제·위생', name:'자동세척기 세제', supplier:'', unit:'통', minWd:'1', minFr:'', platform:'direct'},
+    {cat:'세제·위생', name:'부직포 행주', supplier:'', unit:'팩', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'세제·위생', name:'일회용 앞치마', supplier:'', unit:'장', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'세제·위생', name:'위생장갑(라텍스)', supplier:'', unit:'박스', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'세제·위생', name:'위생장갑(니트릴)', supplier:'', unit:'박스', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'세제·위생', name:'주방세제', supplier:'', unit:'개', minWd:'', minFr:'', platform:'coupang'},
+    // ── 포장재
+    {cat:'포장재', name:'피자 박스(S)', supplier:'', unit:'장', minWd:'', minFr:'', platform:'direct'},
+    {cat:'포장재', name:'피자 박스(M)', supplier:'', unit:'장', minWd:'', minFr:'', platform:'direct'},
+    {cat:'포장재', name:'피자 박스(L)', supplier:'', unit:'장', minWd:'', minFr:'', platform:'direct'},
+    {cat:'포장재', name:'유산지', supplier:'', unit:'장', minWd:'', minFr:'', platform:'direct'},
+    {cat:'포장재', name:'포장 봉투', supplier:'', unit:'장', minWd:'', minFr:'', platform:'direct'},
+    {cat:'포장재', name:'스카치 테이프', supplier:'', unit:'개', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'포장재', name:'포스 용지', supplier:'', unit:'롤', minWd:'', minFr:'', platform:'coupang'},
+    // ── 잔류(홀용품)
+    {cat:'잔류(홀용품)', name:'레드락잔', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'잔류(홀용품)', name:'흑맥주잔', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'잔류(홀용품)', name:'스텔라잔', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'잔류(홀용품)', name:'빅웨이브잔', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'잔류(홀용품)', name:'하이볼잔', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    {cat:'잔류(홀용품)', name:'에이드잔', supplier:'', unit:'개', minWd:'', minFr:'', platform:'direct'},
+    // ── 기타비품
+    {cat:'기타비품', name:'홀 전구', supplier:'', unit:'개', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'기타비품', name:'바 전구', supplier:'', unit:'개', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'기타비품', name:'알루미늄 호일', supplier:'', unit:'롤', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'기타비품', name:'비닐랩', supplier:'', unit:'롤', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'기타비품', name:'이쑤시개', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
+    {cat:'기타비품', name:'냅킨', supplier:'', unit:'팩', minWd:'', minFr:'', platform:'direct'},
   ],
   drink: [
-    // 양주
-    {cat:'양주', name:'페이머스 그라우스', minWd:1, platform:'direct'},
-    {cat:'양주', name:'맥칼란 12년', minWd:1, platform:'direct'},
-    {cat:'양주', name:'글렌디픽', minWd:1, platform:'direct'},
-    {cat:'양주', name:'발베니 12년', minWd:1, platform:'direct'},
-    // 소주
-    {cat:'소주', name:'대선 소주', minWd:5, platform:'direct'},
-    {cat:'소주', name:'참이슬', minWd:5, platform:'direct'},
-    {cat:'소주', name:'좋은데이', minWd:5, platform:'direct'},
-    // 드라프트 비어
-    {cat:'드라프트 비어', name:'모카스타우트 (생)', minWd:1, platform:'direct'},
-    {cat:'드라프트 비어', name:'레드락 (생)', minWd:1, platform:'direct'},
-    // 바틀 비어
-    {cat:'바틀 비어', name:'빅웨이브', minWd:10, platform:'direct'},
-    {cat:'바틀 비어', name:'스텔라 아르투아', minWd:10, platform:'direct'},
-    // 음료수 캔
-    {cat:'음료수 캔', name:'코카콜라 캔', minWd:10, platform:'coupang'},
-    {cat:'음료수 캔', name:'제로콜라 캔', minWd:10, platform:'coupang'},
-    {cat:'음료수 캔', name:'스프라이트 캔', minWd:10, platform:'coupang'},
-    {cat:'음료수 캔', name:'환타(오렌지) 캔', minWd:5, platform:'coupang'},
-    {cat:'음료수 캔', name:'레드불', minWd:5, platform:'coupang'},
-    // 음료수 바틀
-    {cat:'음료수 바틀', name:'토닉워터', minWd:5, platform:'coupang'},
-    {cat:'음료수 바틀', name:'진저에일', minWd:5, platform:'coupang'},
-    {cat:'음료수 바틀', name:'탄산수', minWd:5, platform:'coupang'},
-    // 에이드 원액
-    {cat:'에이드 원액', name:'레몬 원액', minWd:2, platform:'direct'},
-    {cat:'에이드 원액', name:'자몽 원액', minWd:2, platform:'direct'},
-    {cat:'에이드 원액', name:'청포도 원액', minWd:2, platform:'direct'},
-    {cat:'에이드 원액', name:'딸기 원액', minWd:2, platform:'direct'},
-    {cat:'에이드 원액', name:'복숭아 원액', minWd:2, platform:'direct'},
+    // ── 양주
+    {cat:'양주', name:'페이머스 그라우스', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    {cat:'양주', name:'맥칼란 12년', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    {cat:'양주', name:'글렌디픽', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    {cat:'양주', name:'발베니 12년', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    // ── 소주
+    {cat:'소주', name:'대선 소주', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    {cat:'소주', name:'참이슬', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    {cat:'소주', name:'좋은데이', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    // ── 드라프트 비어
+    {cat:'드라프트 비어', name:'모카스타우트 (생)', supplier:'', unit:'통(keg)', minWd:'', minFr:'', platform:'direct'},
+    {cat:'드라프트 비어', name:'레드락 (생)', supplier:'', unit:'통(keg)', minWd:'', minFr:'', platform:'direct'},
+    // ── 바틀 비어
+    {cat:'바틀 비어', name:'빅웨이브', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    {cat:'바틀 비어', name:'스텔라 아르투아', supplier:'', unit:'병', minWd:'', minFr:'', platform:'direct'},
+    // ── 음료수 캔
+    {cat:'음료수 캔', name:'코카콜라 캔', supplier:'', unit:'캔', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'음료수 캔', name:'제로콜라 캔', supplier:'', unit:'캔', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'음료수 캔', name:'스프라이트 캔', supplier:'', unit:'캔', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'음료수 캔', name:'환타(오렌지) 캔', supplier:'', unit:'캔', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'음료수 캔', name:'레드불', supplier:'', unit:'캔', minWd:'', minFr:'', platform:'coupang'},
+    // ── 음료수 바틀
+    {cat:'음료수 바틀', name:'토닉워터', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'음료수 바틀', name:'진저에일', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    {cat:'음료수 바틀', name:'탄산수', supplier:'', unit:'병', minWd:'', minFr:'', platform:'coupang'},
+    // ── 에이드 원액
+    {cat:'에이드 원액', name:'레몬 원액', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
+    {cat:'에이드 원액', name:'자몽 원액', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
+    {cat:'에이드 원액', name:'청포도 원액', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
+    {cat:'에이드 원액', name:'딸기 원액', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
+    {cat:'에이드 원액', name:'복숭아 원액', supplier:'', unit:'통', minWd:'', minFr:'', platform:'direct'},
   ]
 };
 
-// 재고 상태 메모리 (세션 동안 유지, Supabase 저장 가능)
-let invStocks = {}; // key: type+name, value: current qty
+// ── 재고/발주 상태 (세션 메모리)
+// invStocks[key] = { stock: 현재재고량(문자열), order: 발주량(문자열) }
+let invStocks = {};
 let invFilter_current = 'all';
 
 function invKey(type, name){ return type + '::' + name; }
-
-function invGetStock(type, name){
+function invGet(type, name){ return invStocks[invKey(type,name)] || {stock:'', order:''}; }
+function invSet(type, name, field, val){
   const k = invKey(type, name);
-  return invStocks[k] !== undefined ? invStocks[k] : null;
+  if(!invStocks[k]) invStocks[k] = {stock:'', order:''};
+  invStocks[k][field] = val;
+  invUpdateStatus(type, name);
+  invUpdateLowCount();
 }
 
-function invSetStock(type, name, val){
-  const k = invKey(type, name);
-  invStocks[k] = val;
-  invUpdateLowCount();
-  invColorRow(type, name, val);
+function invIsLow(item, stockVal){
+  // 수치형 minWd만 비교 (문자형 "□", "1~2" 등은 비교 안 함)
+  const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
+  const min = isWd ? item.minWd : (item.minFr || item.minWd);
+  const minNum = parseFloat(min);
+  if(isNaN(minNum)) return false; // 비교 불가
+  const stockNum = parseFloat(stockVal);
+  if(isNaN(stockNum)) return false; // 미입력
+  return stockNum < minNum;
+}
+
+function invUpdateStatus(type, name){
+  const allItems3 = getAllInvItems();
+  const item = allItems3.find(x=>x.type===type && x.name===name);
+  if(!item) return;
+  const {stock} = invGet(type, name);
+  const isLow = stock !== '' && invIsLow(item, stock);
+  // 재고 입력 칸 색상
+  const stockEl = document.getElementById('inv-stock-' + invSafeId(type, name));
+  if(stockEl){ stockEl.classList.remove('low','ok'); if(stock!=='') stockEl.classList.add(isLow?'low':'ok'); }
+  // 발주량 칸 하이라이트
+  const orderEl = document.getElementById('inv-order-' + invSafeId(type, name));
+  if(orderEl){ orderEl.style.background = isLow ? 'rgba(220,38,38,.07)' : ''; }
 }
 
 function invUpdateLowCount(){
+  const allItems3 = getAllInvItems();
   let low = 0;
-  const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
-  const allItems3 = [
+  for(const item of allItems3){
+    const {stock} = invGet(item.type, item.name);
+    if(stock !== '' && invIsLow(item, stock)) low++;
+  }
+  const el = document.getElementById('inv-low-count');
+  if(el) el.textContent = low;
+}
+
+function getAllInvItems(){
+  return [
     ...INV_DATA.food.map(x=>({...x,type:'food'})),
     ...INV_DATA.supply.map(x=>({...x,type:'supply'})),
     ...INV_DATA.drink.map(x=>({...x,type:'drink'}))
   ];
-  for(const item of allItems3){
-    const stock = invGetStock(item.type, item.name);
-    if(stock === null) continue;
-    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
-    if(stock < min) low++;
-  }
-  const el = document.getElementById('inv-low-count');
-  if(el) el.textContent = low;
-  return low;
 }
 
-function invColorRow(type, name, val){
-  const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
-  const allItems3 = [...INV_DATA.food.map(x=>({...x,type:'food'})),...INV_DATA.supply.map(x=>({...x,type:'supply'})),...INV_DATA.drink.map(x=>({...x,type:'drink'}))];
-  const item = allItems3.find(x=>x.type===type&&x.name===name);
-  if(!item) return;
-  const min = type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
-  const id = 'inv-inp-' + btoa(unescape(encodeURIComponent(type+'::'+name))).replace(/[^a-z0-9]/gi,'').slice(0,16);
-  const inp = document.getElementById(id);
-  if(!inp) return;
-  inp.classList.remove('low','ok');
-  if(val !== null){ inp.classList.add(val < min ? 'low' : 'ok'); }
+function invSafeId(type, name){
+  return btoa(unescape(encodeURIComponent(type+'::'+name))).replace(/[^a-z0-9]/gi,'').slice(0,20);
 }
 
 function invFilter(f){
@@ -1234,7 +1263,7 @@ function invFilter(f){
 }
 
 function invReset(){
-  if(!confirm('재고 입력을 모두 초기화하시겠습니까?')) return;
+  if(!confirm('재고 및 발주량 입력을 모두 초기화하시겠습니까?')) return;
   invStocks = {};
   renderInventory();
   showToast('초기화되었습니다');
@@ -1246,47 +1275,82 @@ function renderInventory(){
   const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
   const f = invFilter_current;
 
-  let html = '';
-
   const sections = [
-    {key:'food', label:'🍕 식재료', emoji:'🍕'},
-    {key:'supply', label:'🧴 비품·소모품', emoji:'🧴'},
-    {key:'drink', label:'🍺 주류·음료', emoji:'🍺'}
+    {key:'food', label:'식재료', emoji:'🍕'},
+    {key:'supply', label:'비품·소모품', emoji:'🧴'},
+    {key:'drink', label:'주류·음료', emoji:'🍺'}
   ];
+
+  let html = '';
 
   for(const sec of sections){
     if(f !== 'all' && f !== sec.key && f !== 'low') continue;
     const items = INV_DATA[sec.key];
-
-    // 카테고리별로 그룹핑
     const cats = [...new Set(items.map(x=>x.cat))];
     let secHtml = '';
+
     for(const cat of cats){
       const catItems = items.filter(x=>x.cat===cat);
       let catHtml = '';
       for(const item of catItems){
-        const stock = invGetStock(sec.key, item.name);
-        const min = sec.key==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
-        const minFr = sec.key==='food' ? item.minFr : item.minWd;
-        const isLow = stock !== null && stock < min;
-        if(f === 'low' && !isLow && stock !== null) continue;
-        if(f === 'low' && stock === null) continue;
+        const {stock, order} = invGet(sec.key, item.name);
+        const isLow = stock !== '' && invIsLow(item, stock);
+        if(f === 'low' && (!isLow)) continue;
 
-        const safeid = 'inv-inp-' + btoa(unescape(encodeURIComponent(sec.key+'::'+item.name))).replace(/[^a-z0-9]/gi,'').slice(0,16);
-        const clsInp = stock===null ? '' : (isLow ? 'low' : 'ok');
-        const platformLabel = {coupang:'쿠팡', foodpang:'푸드팡', direct:'직접발주'}[item.platform]||'';
-        const platformCls = item.platform;
+        const sid = invSafeId(sec.key, item.name);
+        const stockCls = stock==='' ? '' : (isLow ? 'low' : 'ok');
+        const orderBg = isLow ? 'rgba(220,38,38,.07)' : '';
 
-        catHtml += `<div class="inv-row">
-          <div class="inv-name">${h(item.name)}
-            <div class="inv-name-sub"><span class="inv-order-badge ${platformCls}">${platformLabel}</span></div>
+        const pLabel = {coupang:'쿠팡', foodpang:'푸드팡', direct:'직접발주'}[item.platform]||'';
+        const pCls = item.platform;
+
+        // 기준 수량 표시
+        let minHtml = '';
+        if(item.minWd || item.minFr){
+          const wdStr = item.minWd ? item.minWd+(item.unit?' '+item.unit:'') : '-';
+          const frStr = item.minFr ? item.minFr+(item.unit?' '+item.unit:'') : '-';
+          if(item.minFr && item.minFr !== item.minWd){
+            minHtml = `<div class="inv-ref-row">
+              <span class="inv-ref-lbl">평일</span><span class="inv-ref-val">${h(wdStr)}</span>
+              <span class="inv-ref-sep">│</span>
+              <span class="inv-ref-lbl">금요일</span><span class="inv-ref-val inv-ref-fri">${h(frStr)}</span>
+            </div>`;
+          } else if(item.minWd) {
+            minHtml = `<div class="inv-ref-row"><span class="inv-ref-lbl">기준</span><span class="inv-ref-val">${h(wdStr)}</span></div>`;
+          }
+        }
+
+        const nameEsc = item.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+
+        catHtml += `<div class="inv-row${isLow?' inv-row-low':''}">
+          <div class="inv-name">
+            <div class="inv-name-main">${h(item.name)}${item.supplier?'<span class="inv-supplier"> / '+h(item.supplier)+'</span>':''}</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap;">
+              <span class="inv-order-badge ${pCls}">${pLabel}</span>
+              ${minHtml}
+            </div>
           </div>
-          <div class="inv-qty-box">
-            <div class="inv-min">최소<br>${min}${sec.key==='food'?'<span style="color:var(--text3);font-size:9px;">/금'+minFr+'</span>':''}</div>
-            <input type="number" id="${safeid}" class="inv-qty-inp ${clsInp}" min="0" placeholder="-"
-              value="${stock !== null ? stock : ''}"
-              onchange="invSetStock('${sec.key}','${h(item.name).replace(/'/g,"\\'")}',this.value===''?null:+this.value)"
-              oninput="invSetStock('${sec.key}','${h(item.name).replace(/'/g,"\\'")}',this.value===''?null:+this.value)">
+          <div class="inv-inputs">
+            <div class="inv-input-group">
+              <label class="inv-input-lbl">현재재고</label>
+              <div class="inv-input-row">
+                <input type="text" id="inv-stock-${sid}" class="inv-qty-inp ${stockCls}" placeholder="-"
+                  value="${h(stock)}" inputmode="decimal"
+                  onchange="invSet('${sec.key}','${nameEsc}','stock',this.value.trim())"
+                  oninput="invSet('${sec.key}','${nameEsc}','stock',this.value.trim())">
+                <span class="inv-unit">${h(item.unit||'')}</span>
+              </div>
+            </div>
+            <div class="inv-input-group">
+              <label class="inv-input-lbl" style="color:var(--red)">발주량</label>
+              <div class="inv-input-row">
+                <input type="text" id="inv-order-${sid}" class="inv-qty-inp" placeholder="-"
+                  style="background:${orderBg}" value="${h(order)}" inputmode="decimal"
+                  onchange="invSet('${sec.key}','${nameEsc}','order',this.value.trim())"
+                  oninput="invSet('${sec.key}','${nameEsc}','order',this.value.trim())">
+                <span class="inv-unit">${h(item.unit||'')}</span>
+              </div>
+            </div>
           </div>
         </div>`;
       }
@@ -1296,12 +1360,18 @@ function renderInventory(){
 
     if(!secHtml) continue;
 
+    // 오늘 기준 표시
+    const todayLabel = isWd ? '📅 오늘은 평일 — 평일 기준 적용' : '📅 오늘은 금/주말 — 금요일 기준 적용';
+
     html += `<div class="inv-section">
       <div class="inv-section-hdr" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
         <div class="inv-section-title">${sec.emoji} ${sec.label}</div>
-        <span style="font-size:12px;color:var(--text3);">▼</span>
+        <span style="font-size:11px;color:var(--text3);">▼</span>
       </div>
-      <div class="inv-section-body">${secHtml}</div>
+      <div class="inv-section-body">
+        <div class="inv-today-label">${todayLabel}</div>
+        ${secHtml}
+      </div>
     </div>`;
   }
 
@@ -1312,30 +1382,33 @@ function renderInventory(){
 
 function invShowSummary(){
   const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
-  const allItems3 = [
-    ...INV_DATA.food.map(x=>({...x,type:'food'})),
-    ...INV_DATA.supply.map(x=>({...x,type:'supply'})),
-    ...INV_DATA.drink.map(x=>({...x,type:'drink'}))
-  ];
+  const allItems3 = getAllInvItems();
 
-  // 부족 항목 수집
-  const lowItems = allItems3.filter(item=>{
-    const stock = invGetStock(item.type, item.name);
-    if(stock === null) return false;
-    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
-    return stock < min;
-  });
+  // 발주량이 입력된 항목 우선, 없으면 재고 부족 항목
+  const groups = {coupang:[], foodpang:[], direct:[]};
 
-  // 플랫폼별 그룹핑
-  const groups = {coupang:[],foodpang:[],direct:[]};
-  for(const item of lowItems){
-    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
-    const stock = invGetStock(item.type, item.name);
-    const need = min - stock;
-    groups[item.platform||'direct'].push({...item, need, stock});
+  for(const item of allItems3){
+    const {stock, order} = invGet(item.type, item.name);
+    const hasOrder = order !== '';
+    const isLow = stock !== '' && invIsLow(item, stock);
+    if(!hasOrder && !isLow) continue;
+
+    const min = isWd ? item.minWd : (item.minFr || item.minWd);
+    const minNum = parseFloat(min);
+    const stockNum = parseFloat(stock);
+    let autoNeed = '';
+    if(!isNaN(minNum) && !isNaN(stockNum)) autoNeed = String(Math.max(0, Math.ceil(minNum - stockNum)));
+
+    groups[item.platform||'direct'].push({
+      ...item,
+      stock: stock || '-',
+      order: order || (isLow ? autoNeed : ''),
+      isLow,
+      hasOrder
+    });
   }
 
-  const platformNames = {coupang:'쿠팡 발주', foodpang:'푸드팡(아이폰) 발주', direct:'직접 발주 / 카톡·메일'};
+  const platformNames = {coupang:'🛒 쿠팡 발주', foodpang:'📱 푸드팡 발주 (아이폰)', direct:'📞 직접 발주 / 카톡·메일'};
   let html = '';
   let hasAny = false;
   for(const [plat, items] of Object.entries(groups)){
@@ -1344,20 +1417,29 @@ function invShowSummary(){
     html += `<div class="inv-summary-group">
       <div class="inv-summary-group-title">${platformNames[plat]}</div>`;
     for(const item of items){
+      const orderTxt = item.order ? item.order+(item.unit?' '+item.unit:'') : '수량 미입력';
+      const stockTxt = item.stock !== '-' ? item.stock+(item.unit?' '+item.unit:'') : '-';
       html += `<div class="inv-summary-item">
-        <span>${h(item.name)} <span style="opacity:.6;font-size:10px;">(${item.cat})</span></span>
-        <span class="inv-summary-count">현재 ${item.stock} → 최소 ${item.need+item.stock}필요 (+${item.need})</span>
+        <span>${h(item.name)}${item.supplier?' <span style="opacity:.55;font-size:10px;">'+h(item.supplier)+'</span>':''}</span>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-weight:700">${h(orderTxt)}</div>
+          <div class="inv-summary-count">재고 ${h(stockTxt)}</div>
+        </div>
       </div>`;
     }
     html += '</div>';
   }
 
   if(!hasAny){
-    html = '<div class="inv-summary-empty">✅ 부족한 재고가 없습니다!</div>';
+    html = '<div class="inv-summary-empty">재고를 입력하거나<br>발주량을 직접 적어주세요</div>';
   }
 
+  const dateStr = new Date().toLocaleDateString('ko-KR');
   const body = document.getElementById('inv-summary-body');
-  body.innerHTML = `<div class="inv-summary-card"><div class="inv-summary-title">📋 발주 필요 목록 (${new Date().toLocaleDateString('ko-KR')} ${isWd?'평일':'금·주말'})</div>${html}</div>`;
+  body.innerHTML = `<div class="inv-summary-card">
+    <div class="inv-summary-title">📋 발주 목록 · ${dateStr} (${isWd?'평일':'금/주말'})</div>
+    ${html}
+  </div>`;
   document.getElementById('inv-summary-modal').classList.add('open');
 }
 
@@ -1367,36 +1449,36 @@ function closeInvModal(){
 
 function invCopySummary(){
   const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
-  const allItems3 = [
-    ...INV_DATA.food.map(x=>({...x,type:'food'})),
-    ...INV_DATA.supply.map(x=>({...x,type:'supply'})),
-    ...INV_DATA.drink.map(x=>({...x,type:'drink'}))
-  ];
-  const lowItems = allItems3.filter(item=>{
-    const stock = invGetStock(item.type, item.name);
-    if(stock === null) return false;
-    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
-    return stock < min;
-  });
+  const allItems3 = getAllInvItems();
+  const groups = {coupang:[], foodpang:[], direct:[]};
 
-  const groups = {coupang:[],foodpang:[],direct:[]};
-  for(const item of lowItems){
-    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
-    const stock = invGetStock(item.type, item.name);
-    const need = min - stock;
-    groups[item.platform||'direct'].push({...item, need});
+  for(const item of allItems3){
+    const {stock, order} = invGet(item.type, item.name);
+    const hasOrder = order !== '';
+    const isLow = stock !== '' && invIsLow(item, stock);
+    if(!hasOrder && !isLow) continue;
+    const min = isWd ? item.minWd : (item.minFr || item.minWd);
+    const minNum = parseFloat(min);
+    const stockNum = parseFloat(stock);
+    let autoNeed = '';
+    if(!isNaN(minNum) && !isNaN(stockNum)) autoNeed = String(Math.max(0, Math.ceil(minNum - stockNum)));
+    groups[item.platform||'direct'].push({...item, stock, order: order||(isLow?autoNeed:'')});
   }
 
-  const platformNames = {coupang:'[쿠팡 발주]', foodpang:'[푸드팡 발주]', direct:'[직접 발주/카톡·메일]'};
-  let text = `📦 발주 요청 (${new Date().toLocaleDateString('ko-KR')} ${isWd?'평일':'금·주말'})\n\n`;
+  const platformNames = {coupang:'[쿠팡 발주]', foodpang:'[푸드팡 발주]', direct:'[직접발주/카톡·메일]'};
+  let text = `📦 발주 목록 (${new Date().toLocaleDateString('ko-KR')} ${isWd?'평일':'금/주말'})\n\n`;
+  let hasAny = false;
   for(const [plat, items] of Object.entries(groups)){
     if(!items.length) continue;
+    hasAny = true;
     text += platformNames[plat] + '\n';
-    for(const item of items){ text += `• ${item.name} (+${item.need})\n`; }
+    for(const item of items){
+      const orderTxt = item.order ? item.order+(item.unit?' '+item.unit:'') : '수량확인필요';
+      text += `• ${item.name}${item.supplier?' ('+item.supplier+')':''} → ${orderTxt}\n`;
+    }
     text += '\n';
   }
-  if(!lowItems.length) text = '재고가 모두 충분합니다 ✅';
-
+  if(!hasAny) text = '발주 항목이 없습니다';
   navigator.clipboard.writeText(text).then(()=>showToast('클립보드에 복사됨 📋')).catch(()=>showToast('복사 실패'));
 }
 
