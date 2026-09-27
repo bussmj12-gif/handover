@@ -10,10 +10,10 @@
     --bg:#f4f6fb;--surface:#fff;--surface2:#f0f2f8;--border:#dde1ee;
     --accent:#4f6ef7;--accent2:#7c3aed;--green:#16a34a;--red:#dc2626;--orange:#ea580c;
     --text:#1a1d2e;--text2:#5c6280;--text3:#9399b2;
-    --radius:14px;--radius-sm:10px;--nav-h:60px;
+    --radius:14px;--radius-sm:10px;--nav-h:62px;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Noto Sans',sans-serif;min-height:100vh;font-size:14px;line-height:1.6;padding-bottom:var(--nav-h);}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Noto Sans',sans-serif;min-height:100vh;font-size:14px;line-height:1.6;padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0));}
 
   /* Login */
   #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 20px;background:radial-gradient(ellipse at 50% 0%,#dde5ff,var(--bg) 70%);}
@@ -41,23 +41,36 @@
 
   /* App */
   #app{display:none;min-height:100vh;}
-  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 12px;height:48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:6px;}
-  .topbar-logo{display:flex;align-items:center;gap:7px;flex-shrink:0;}
-  .topbar-logo .icon{width:26px;height:26px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;}
-  .topbar-logo span{font-weight:700;font-size:14px;white-space:nowrap;}
-  .topbar-right{display:flex;align-items:center;gap:5px;flex-shrink:0;}
-  .user-badge{display:flex;align-items:center;gap:5px;background:var(--surface2);padding:4px 8px;border-radius:20px;font-size:11px;font-weight:500;}
-  .user-badge .av{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
-  .badge-role{font-size:9px;padding:1px 5px;border-radius:10px;font-weight:700;}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 12px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px;}
+  .topbar-logo{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .topbar-logo .icon{width:30px;height:30px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .topbar-logo span{font-weight:700;font-size:15px;white-space:nowrap;}
+  .topbar-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+  /* 모바일: 유저명 숨기고 아바타+역할만 */
+  .user-badge{display:flex;align-items:center;gap:4px;padding:3px 6px;border-radius:20px;}
+  .user-badge .av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;cursor:pointer;}
+  .user-badge .uname-txt{display:none;} /* 모바일에서 이름 숨김 */
+  .badge-role{font-size:9px;padding:1px 6px;border-radius:10px;font-weight:700;}
   .badge-role.admin{background:rgba(79,110,247,.15);color:var(--accent);}
   .badge-role.user{background:rgba(22,163,74,.15);color:var(--green);}
   .badge-role.trainee{background:rgba(234,88,12,.15);color:var(--orange);}
-  .btn-icon{background:none;border:none;cursor:pointer;padding:4px 5px;font-size:15px;border-radius:6px;line-height:1;}
-  .btn-logout{background:none;border:none;color:var(--text2);font-size:11px;font-family:inherit;cursor:pointer;padding:4px 6px;border-radius:6px;font-weight:600;}
+  .btn-icon{background:none;border:none;cursor:pointer;padding:6px;font-size:16px;border-radius:8px;line-height:1;display:flex;align-items:center;justify-content:center;}
+  .btn-icon:active{background:var(--surface2);}
+  /* 모바일에서 로그아웃 버튼 숨김 → 아바타 길게 누르거나 메뉴에서 */
+  .btn-logout{display:none;}
+  /* 유저 드롭다운 메뉴 */
+  .user-menu{position:absolute;top:56px;right:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:160px;overflow:hidden;z-index:200;display:none;}
+  .user-menu.open{display:block;}
+  .user-menu-header{padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface2);}
+  .user-menu-name{font-weight:700;font-size:13px;}
+  .user-menu-role{font-size:11px;color:var(--text2);margin-top:2px;}
+  .user-menu-item{display:flex;align-items:center;gap:8px;padding:11px 14px;font-size:13px;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit;color:var(--text);}
+  .user-menu-item:active{background:var(--surface2);}
+  .user-menu-item.danger{color:var(--red);}
 
   /* Lang selector */
-  .lang-sel{display:flex;gap:4px;background:var(--surface2);border-radius:20px;padding:3px;}
-  .lang-btn{border:none;background:transparent;font-size:11px;font-weight:600;cursor:pointer;padding:3px 8px;border-radius:14px;color:var(--text2);font-family:inherit;}
+  .lang-sel{display:flex;gap:2px;background:var(--surface2);border-radius:20px;padding:3px;}
+  .lang-btn{border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:14px;color:var(--text2);font-family:inherit;min-height:28px;}
   .lang-btn.active{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.1);}
 
   /* Desktop tabs */
@@ -66,10 +79,11 @@
   .tab-btn.active{background:var(--surface2);color:var(--accent);}
 
   /* Bottom nav */
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);height:var(--nav-h);display:flex;align-items:center;z-index:100;}
-  .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;cursor:pointer;color:var(--text3);font-size:9px;font-weight:600;font-family:inherit;padding:6px 4px;min-height:44px;}
-  .nav-btn .ni{font-size:19px;line-height:1;}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);height:var(--nav-h);display:flex;align-items:stretch;z-index:100;padding-bottom:env(safe-area-inset-bottom,0);}
+  .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:none;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;font-family:inherit;padding:4px 2px 6px;min-height:44px;position:relative;transition:color .15s;}
+  .nav-btn .ni{font-size:22px;line-height:1;}
   .nav-btn.active{color:var(--accent);}
+  .nav-btn.active::after{content:'';position:absolute;top:0;left:20%;right:20%;height:2px;background:var(--accent);border-radius:0 0 3px 3px;}
 
   /* Content */
   .main{padding:12px 12px;max-width:680px;margin:0 auto;}
@@ -217,21 +231,25 @@
   .inv-save-bar{position:sticky;bottom:calc(var(--nav-h) + 8px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 13px;box-shadow:0 4px 16px rgba(0,0,0,.1);display:flex;gap:8px;align-items:center;z-index:50;margin:10px 0;}
   .inv-save-info{flex:1;font-size:12px;color:var(--text2);}
   .inv-save-info strong{color:var(--red);}
-  @media(min-width:640px){
+  @media(min-width:900px){
     .inv-save-bar{bottom:20px;}
     .inv-qty-inp{width:60px;}
   }
 
-  @media(min-width:640px){
+  @media(min-width:900px){
     body{padding-bottom:0;}
     .bottom-nav{display:none;}
     .desk-tabs{display:flex !important;}
-    .topbar{height:54px;padding:0 20px;}
+    .topbar{height:56px;padding:0 24px;}
     .main{padding:20px 20px;}
     #toast{bottom:20px;}
     .modal-ov{align-items:center;padding:20px;}
     .modal{border-radius:18px;max-height:80vh;}
     .modal-handle{display:none;}
+    .user-badge .uname-txt{display:inline;}
+    .user-badge{background:var(--surface2);padding:4px 10px;}
+    .btn-logout{display:inline-flex;}
+    .user-menu{top:62px;}
   }
 </style>
 </head>
@@ -261,10 +279,23 @@
         <button class="lang-btn" onclick="setLang('en')">EN</button>
         <button class="lang-btn" onclick="setLang('ne')">ने</button>
       </div>
-      <div class="user-badge"><div class="av" id="uav"></div><span id="uname"></span><span class="badge-role" id="urole-badge"></span></div>
       <button class="btn-icon" onclick="registerPush()" title="알림 설정">🔔</button>
+      <div class="user-badge" onclick="toggleUserMenu()">
+        <div class="av" id="uav"></div>
+        <span class="uname-txt" id="uname"></span>
+        <span class="badge-role" id="urole-badge"></span>
+      </div>
       <button class="btn-logout" onclick="doLogout()">로그아웃</button>
     </div>
+  </div>
+  <!-- 유저 드롭다운 -->
+  <div class="user-menu" id="user-menu" onclick="event.stopPropagation()">
+    <div class="user-menu-header">
+      <div class="user-menu-name" id="umenu-name"></div>
+      <div class="user-menu-role" id="umenu-role"></div>
+    </div>
+    <button class="user-menu-item" onclick="registerPush();closeUserMenu()">🔔 알림 설정</button>
+    <button class="user-menu-item danger" onclick="doLogout()">🚪 로그아웃</button>
   </div>
 
   <!-- 체크리스트 탭 -->
@@ -555,10 +586,26 @@ async function doLogin(){
 }
 
 function doLogout(){
+  closeUserMenu();
   localStorage.removeItem('hu');currentUser=null;
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('app').style.display='none';
 }
+
+function toggleUserMenu(){
+  const m=document.getElementById('user-menu');
+  if(m.classList.contains('open')){m.classList.remove('open');}
+  else{m.classList.add('open');}
+}
+function closeUserMenu(){
+  const m=document.getElementById('user-menu');
+  if(m)m.classList.remove('open');
+}
+document.addEventListener('click',function(e){
+  const m=document.getElementById('user-menu');
+  const ub=document.querySelector('.user-badge');
+  if(m&&!m.contains(e.target)&&ub&&!ub.contains(e.target))m.classList.remove('open');
+});
 
 function getRoleLabel(role){
   if(role==='admin')return {label:'ADMIN',cls:'admin'};
@@ -574,6 +621,11 @@ function showApp(){
   const rl=getRoleLabel(currentUser.role);
   const rb=document.getElementById('urole-badge');
   rb.textContent=rl.label;rb.className='badge-role '+rl.cls;
+  // 유저 드롭다운 정보
+  const mn=document.getElementById('umenu-name');
+  const mr=document.getElementById('umenu-role');
+  if(mn)mn.textContent=currentUser.display_name;
+  if(mr)mr.textContent=rl.label;
   buildNav();buildDeskTabs();
   loadChecklist();
 }
