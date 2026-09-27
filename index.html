@@ -165,6 +165,46 @@
   .spin{display:inline-block;width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:8px;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
+  /* Inventory tab */
+  .inv-section{margin-bottom:14px;}
+  .inv-section-hdr{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;padding:10px 13px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;}
+  .inv-section-hdr:active{background:var(--surface2);}
+  .inv-section-title{font-weight:700;font-size:13px;display:flex;align-items:center;gap:7px;}
+  .inv-section-body{background:var(--surface);border-radius:0 0 var(--radius) var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .inv-cat-hdr{background:var(--surface2);padding:6px 13px;font-size:11px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border);}
+  .inv-row{display:flex;align-items:center;gap:8px;padding:9px 13px;border-bottom:1px solid var(--border);}
+  .inv-row:last-child{border-bottom:none;}
+  .inv-name{flex:1;font-size:13px;font-weight:500;min-width:0;}
+  .inv-name-sub{font-size:10px;color:var(--text3);margin-top:1px;}
+  .inv-qty-box{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+  .inv-qty-label{font-size:10px;color:var(--text3);white-space:nowrap;}
+  .inv-qty-inp{width:52px;text-align:center;padding:5px 4px;border:1.5px solid var(--border);border-radius:7px;font-size:14px;font-weight:700;background:var(--surface2);color:var(--text);font-family:inherit;-webkit-appearance:none;appearance:none;}
+  .inv-qty-inp:focus{border-color:var(--accent);background:#fff;outline:none;}
+  .inv-qty-inp.low{border-color:var(--red);background:rgba(220,38,38,.05);}
+  .inv-qty-inp.ok{border-color:var(--green);background:rgba(22,163,74,.05);}
+  .inv-min{font-size:10px;color:var(--text3);white-space:nowrap;text-align:right;}
+  .inv-order-badge{font-size:9px;padding:2px 6px;border-radius:6px;font-weight:700;white-space:nowrap;flex-shrink:0;}
+  .inv-order-badge.coupang{background:rgba(234,88,12,.12);color:var(--orange);}
+  .inv-order-badge.foodpang{background:rgba(79,110,247,.12);color:var(--accent);}
+  .inv-order-badge.direct{background:rgba(22,163,74,.12);color:var(--green);}
+  .inv-toolbar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+  .inv-filter-btn{padding:5px 11px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .inv-filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .inv-summary-card{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;}
+  .inv-summary-title{font-size:13px;font-weight:700;margin-bottom:10px;opacity:.9;}
+  .inv-summary-group{margin-bottom:10px;}
+  .inv-summary-group-title{font-size:11px;font-weight:700;opacity:.7;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;}
+  .inv-summary-item{font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;gap:8px;}
+  .inv-summary-item:last-child{border-bottom:none;}
+  .inv-summary-empty{font-size:13px;text-align:center;padding:14px;opacity:.75;}
+  .inv-summary-count{font-size:10px;opacity:.7;white-space:nowrap;}
+  .inv-save-bar{position:sticky;bottom:calc(var(--nav-h) + 8px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 13px;box-shadow:0 4px 16px rgba(0,0,0,.1);display:flex;gap:8px;align-items:center;z-index:50;margin:10px 0;}
+  .inv-save-info{flex:1;font-size:12px;color:var(--text2);}
+  .inv-save-info strong{color:var(--red);}
+  @media(min-width:640px){
+    .inv-save-bar{bottom:20px;}
+  }
+
   @media(min-width:640px){
     body{padding-bottom:0;}
     .bottom-nav{display:none;}
@@ -293,6 +333,37 @@
           <input type="text" class="fi" id="new-item-video" placeholder="유튜브 URL (선택사항)">
         </div>
         <button class="btn btn-success" onclick="addItem()">+ 항목 추가</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 재고관리 탭 -->
+  <div id="tab-inventory" class="main" style="display:none">
+    <div class="ph"><h2>📦 재고관리</h2><p>현재 재고를 입력하고 발주 목록을 확인하세요</p></div>
+    <div class="inv-toolbar">
+      <button class="inv-filter-btn active" onclick="invFilter('all')">전체</button>
+      <button class="inv-filter-btn" onclick="invFilter('food')">🍕 식재료</button>
+      <button class="inv-filter-btn" onclick="invFilter('supply')">🧴 비품</button>
+      <button class="inv-filter-btn" onclick="invFilter('drink')">🍺 주류·음료</button>
+      <button class="inv-filter-btn" onclick="invFilter('low')">⚠️ 부족</button>
+    </div>
+    <div class="inv-save-bar">
+      <div class="inv-save-info">부족 항목: <strong id="inv-low-count">0</strong>개</div>
+      <button class="btn btn-sm btn-ghost" onclick="invReset()">초기화</button>
+      <button class="btn btn-sm btn-primary" onclick="invShowSummary()">📋 발주 요약</button>
+    </div>
+    <div id="inv-container"></div>
+  </div>
+
+  <!-- 발주 요약 모달 -->
+  <div class="modal-ov" id="inv-summary-modal" onclick="if(event.target===this)closeInvModal()">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <h3>📋 발주 요약</h3>
+      <div id="inv-summary-body"></div>
+      <div class="modal-acts">
+        <button class="btn btn-ghost" onclick="closeInvModal()">닫기</button>
+        <button class="btn btn-primary" onclick="invCopySummary()">📋 복사</button>
       </div>
     </div>
   </div>
@@ -497,6 +568,7 @@ function buildNav(){
   if(role!=='trainee'){
     btns+=`<button class="nav-btn active" id="nav-checklist" onclick="switchTab('checklist')"><span class="ni">✅</span>${t('checklist')}</button>`;
     btns+=`<button class="nav-btn" id="nav-add" onclick="switchTab('add')"><span class="ni">➕</span>${t('add')}</button>`;
+    btns+=`<button class="nav-btn" id="nav-inventory" onclick="switchTab('inventory')"><span class="ni">📦</span>재고</button>`;
   }else{
     btns+=`<button class="nav-btn active" id="nav-checklist" onclick="switchTab('checklist')"><span class="ni">📚</span>${t('education')}</button>`;
   }
@@ -513,6 +585,7 @@ function buildDeskTabs(){
   if(role!=='trainee'){
     btns+=`<button class="tab-btn active" onclick="switchTab('checklist')">✅ ${t('checklist')}</button>`;
     btns+=`<button class="tab-btn" onclick="switchTab('add')">➕ ${t('add')}</button>`;
+    btns+=`<button class="tab-btn" onclick="switchTab('inventory')">📦 재고관리</button>`;
   }else{
     btns+=`<button class="tab-btn active" onclick="switchTab('checklist')">📚 ${t('education')}</button>`;
   }
@@ -932,7 +1005,7 @@ async function userAddItem(){
 
 // ── Tabs ──
 function switchTab(tab){
-  ['checklist','add','admin'].forEach(function(t2){
+  ['checklist','add','admin','inventory'].forEach(function(t2){
     const el=document.getElementById('tab-'+t2);
     if(el)el.style.display=t2===tab?'block':'none';
     const nb=document.getElementById('nav-'+t2);
@@ -943,10 +1016,12 @@ function switchTab(tab){
       (tab==='checklist'&&(b.textContent.includes('체크')||b.textContent.includes('Checklist')||b.textContent.includes('जाँच')||b.textContent.includes('교육')))
       ||(tab==='add'&&(b.textContent.includes('추가')||b.textContent.includes('Add')))
       ||(tab==='admin'&&(b.textContent.includes('관리')||b.textContent.includes('Admin')))
+      ||(tab==='inventory'&&b.textContent.includes('재고'))
     );
   });
   if(tab==='admin')loadAdmin();
   if(tab==='add')loadAddTab();
+  if(tab==='inventory')renderInventory();
 }
 
 // ── Push ──
@@ -975,6 +1050,354 @@ function urlBase64ToUint8Array(base64String){
 async function sendPushToAll(title,body){
   try{await fetch(PUSH_SERVER+'/api/send-push',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,body,excludeUserId:currentUser.id})});}
   catch(e){console.log('푸시 오류:',e);}
+}
+
+// ── 재고관리 ──
+const INV_DATA = {
+  food: [
+    // 카테고리: 도우/치즈
+    {cat:'도우·치즈', name:'밀도우 350G', minWd:10, minFr:15, platform:'direct'},
+    {cat:'도우·치즈', name:'서울우유 펠렛치즈', minWd:5, minFr:8, platform:'direct'},
+    {cat:'도우·치즈', name:'썬리치 컬러드체다치즈', minWd:3, minFr:5, platform:'direct'},
+    // 카테고리: 육류/가금류
+    {cat:'육류·가금류', name:'사조 베이컨 슬라이스', minWd:5, minFr:8, platform:'direct'},
+    {cat:'육류·가금류', name:'닭정육', minWd:10, minFr:15, platform:'direct'},
+    {cat:'육류·가금류', name:'소고기', minWd:5, minFr:8, platform:'direct'},
+    {cat:'육류·가금류', name:'돼지불고기', minWd:5, minFr:8, platform:'direct'},
+    // 카테고리: 냉동 식품
+    {cat:'냉동식품', name:'사조오양 페파로니 1kg', minWd:3, minFr:5, platform:'coupang'},
+    {cat:'냉동식품', name:'깐쇼새우', minWd:5, minFr:8, platform:'foodpang'},
+    {cat:'냉동식품', name:'사세 버팔로윙', minWd:5, minFr:8, platform:'coupang'},
+    {cat:'냉동식품', name:'사세 치킨텐더', minWd:5, minFr:8, platform:'coupang'},
+    {cat:'냉동식품', name:'심플로트 고메 케이준프라이', minWd:5, minFr:8, platform:'coupang'},
+    // 카테고리: 면·파스타
+    {cat:'면·파스타', name:'라폰테 스파게티면', minWd:5, minFr:8, platform:'coupang'},
+    // 카테고리: 야채
+    {cat:'야채', name:'양파', minWd:5, minFr:8, platform:'direct'},
+    {cat:'야채', name:'마늘', minWd:3, minFr:5, platform:'direct'},
+    {cat:'야채', name:'방울토마토', minWd:3, minFr:5, platform:'direct'},
+    {cat:'야채', name:'루꼴라', minWd:2, minFr:3, platform:'direct'},
+    {cat:'야채', name:'바질', minWd:2, minFr:3, platform:'direct'},
+    {cat:'야채', name:'파프리카(빨강)', minWd:3, minFr:5, platform:'direct'},
+    {cat:'야채', name:'파프리카(노랑)', minWd:3, minFr:5, platform:'direct'},
+    {cat:'야채', name:'버섯', minWd:3, minFr:5, platform:'direct'},
+    {cat:'야채', name:'올리브(블랙)', minWd:2, minFr:3, platform:'direct'},
+    {cat:'야채', name:'레몬', minWd:5, minFr:8, platform:'direct'},
+    {cat:'야채', name:'라임', minWd:3, minFr:5, platform:'direct'},
+    // 카테고리: 통조림·소스
+    {cat:'통조림·소스', name:'토마토소스(통조림)', minWd:5, minFr:8, platform:'coupang'},
+    {cat:'통조림·소스', name:'올리브오일', minWd:2, minFr:3, platform:'coupang'},
+    {cat:'통조림·소스', name:'핫소스', minWd:2, minFr:3, platform:'coupang'},
+    {cat:'통조림·소스', name:'BBQ소스', minWd:2, minFr:3, platform:'coupang'},
+    {cat:'통조림·소스', name:'마요네즈', minWd:2, minFr:3, platform:'coupang'},
+    {cat:'통조림·소스', name:'케첩', minWd:2, minFr:3, platform:'coupang'},
+    {cat:'통조림·소스', name:'랜치소스', minWd:2, minFr:3, platform:'foodpang'},
+    {cat:'통조림·소스', name:'갈릭버터', minWd:2, minFr:3, platform:'direct'},
+    {cat:'통조림·소스', name:'허니머스타드', minWd:2, minFr:3, platform:'direct'},
+    {cat:'통조림·소스', name:'발사믹글레이즈', minWd:1, minFr:2, platform:'coupang'},
+    {cat:'통조림·소스', name:'크림소스(베이스)', minWd:3, minFr:5, platform:'foodpang'},
+    // 카테고리: 유제품·기타
+    {cat:'유제품·기타', name:'생크림', minWd:3, minFr:5, platform:'direct'},
+    {cat:'유제품·기타', name:'버터', minWd:3, minFr:5, platform:'direct'},
+    {cat:'유제품·기타', name:'달걀', minWd:10, minFr:15, platform:'direct'},
+    {cat:'유제품·기타', name:'식빵', minWd:5, minFr:8, platform:'direct'},
+    {cat:'유제품·기타', name:'밀가루', minWd:3, minFr:5, platform:'coupang'},
+    {cat:'유제품·기타', name:'설탕', minWd:2, minFr:3, platform:'coupang'},
+    {cat:'유제품·기타', name:'소금', minWd:2, minFr:3, platform:'coupang'},
+    {cat:'유제품·기타', name:'후추', minWd:2, minFr:3, platform:'coupang'},
+    {cat:'유제품·기타', name:'오레가노', minWd:1, minFr:2, platform:'coupang'},
+    {cat:'유제품·기타', name:'바질(건조)', minWd:1, minFr:2, platform:'coupang'},
+  ],
+  supply: [
+    // 카테고리: 세제·위생
+    {cat:'세제·위생', name:'자동세척기 린스', minWd:1, platform:'direct'},
+    {cat:'세제·위생', name:'자동세척기 세제', minWd:1, platform:'direct'},
+    {cat:'세제·위생', name:'주방세제', minWd:2, platform:'coupang'},
+    {cat:'세제·위생', name:'소독용 에탄올', minWd:2, platform:'coupang'},
+    {cat:'세제·위생', name:'위생장갑(라텍스)', minWd:2, platform:'coupang'},
+    {cat:'세제·위생', name:'위생장갑(니트릴)', minWd:2, platform:'coupang'},
+    {cat:'세제·위생', name:'일회용 앞치마', minWd:10, platform:'coupang'},
+    {cat:'세제·위생', name:'부직포 행주', minWd:5, platform:'coupang'},
+    // 카테고리: 포장재
+    {cat:'포장재', name:'피자 박스(S)', minWd:20, platform:'direct'},
+    {cat:'포장재', name:'피자 박스(M)', minWd:20, platform:'direct'},
+    {cat:'포장재', name:'피자 박스(L)', minWd:20, platform:'direct'},
+    {cat:'포장재', name:'유산지', minWd:50, platform:'direct'},
+    {cat:'포장재', name:'포장 봉투', minWd:30, platform:'direct'},
+    {cat:'포장재', name:'스카치 테이프', minWd:5, platform:'coupang'},
+    {cat:'포장재', name:'포스 용지', minWd:5, platform:'coupang'},
+    // 카테고리: 잔류
+    {cat:'잔류(홀용품)', name:'레드락잔', minWd:10, platform:'direct'},
+    {cat:'잔류(홀용품)', name:'흑맥주잔', minWd:10, platform:'direct'},
+    {cat:'잔류(홀용품)', name:'스텔라잔', minWd:10, platform:'direct'},
+    {cat:'잔류(홀용품)', name:'빅웨이브잔', minWd:10, platform:'direct'},
+    {cat:'잔류(홀용품)', name:'하이볼잔', minWd:10, platform:'direct'},
+    {cat:'잔류(홀용품)', name:'에이드잔', minWd:10, platform:'direct'},
+    // 카테고리: 기타
+    {cat:'기타비품', name:'홀 전구', minWd:5, platform:'coupang'},
+    {cat:'기타비품', name:'바 전구', minWd:5, platform:'coupang'},
+    {cat:'기타비품', name:'알루미늄 호일', minWd:3, platform:'coupang'},
+    {cat:'기타비품', name:'비닐랩', minWd:3, platform:'coupang'},
+    {cat:'기타비품', name:'이쑤시개', minWd:5, platform:'direct'},
+    {cat:'기타비품', name:'냅킨', minWd:10, platform:'direct'},
+  ],
+  drink: [
+    // 양주
+    {cat:'양주', name:'페이머스 그라우스', minWd:1, platform:'direct'},
+    {cat:'양주', name:'맥칼란 12년', minWd:1, platform:'direct'},
+    {cat:'양주', name:'글렌디픽', minWd:1, platform:'direct'},
+    {cat:'양주', name:'발베니 12년', minWd:1, platform:'direct'},
+    // 소주
+    {cat:'소주', name:'대선 소주', minWd:5, platform:'direct'},
+    {cat:'소주', name:'참이슬', minWd:5, platform:'direct'},
+    {cat:'소주', name:'좋은데이', minWd:5, platform:'direct'},
+    // 드라프트 비어
+    {cat:'드라프트 비어', name:'모카스타우트 (생)', minWd:1, platform:'direct'},
+    {cat:'드라프트 비어', name:'레드락 (생)', minWd:1, platform:'direct'},
+    // 바틀 비어
+    {cat:'바틀 비어', name:'빅웨이브', minWd:10, platform:'direct'},
+    {cat:'바틀 비어', name:'스텔라 아르투아', minWd:10, platform:'direct'},
+    // 음료수 캔
+    {cat:'음료수 캔', name:'코카콜라 캔', minWd:10, platform:'coupang'},
+    {cat:'음료수 캔', name:'제로콜라 캔', minWd:10, platform:'coupang'},
+    {cat:'음료수 캔', name:'스프라이트 캔', minWd:10, platform:'coupang'},
+    {cat:'음료수 캔', name:'환타(오렌지) 캔', minWd:5, platform:'coupang'},
+    {cat:'음료수 캔', name:'레드불', minWd:5, platform:'coupang'},
+    // 음료수 바틀
+    {cat:'음료수 바틀', name:'토닉워터', minWd:5, platform:'coupang'},
+    {cat:'음료수 바틀', name:'진저에일', minWd:5, platform:'coupang'},
+    {cat:'음료수 바틀', name:'탄산수', minWd:5, platform:'coupang'},
+    // 에이드 원액
+    {cat:'에이드 원액', name:'레몬 원액', minWd:2, platform:'direct'},
+    {cat:'에이드 원액', name:'자몽 원액', minWd:2, platform:'direct'},
+    {cat:'에이드 원액', name:'청포도 원액', minWd:2, platform:'direct'},
+    {cat:'에이드 원액', name:'딸기 원액', minWd:2, platform:'direct'},
+    {cat:'에이드 원액', name:'복숭아 원액', minWd:2, platform:'direct'},
+  ]
+};
+
+// 재고 상태 메모리 (세션 동안 유지, Supabase 저장 가능)
+let invStocks = {}; // key: type+name, value: current qty
+let invFilter_current = 'all';
+
+function invKey(type, name){ return type + '::' + name; }
+
+function invGetStock(type, name){
+  const k = invKey(type, name);
+  return invStocks[k] !== undefined ? invStocks[k] : null;
+}
+
+function invSetStock(type, name, val){
+  const k = invKey(type, name);
+  invStocks[k] = val;
+  invUpdateLowCount();
+  invColorRow(type, name, val);
+}
+
+function invUpdateLowCount(){
+  let low = 0;
+  const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
+  const allItems3 = [
+    ...INV_DATA.food.map(x=>({...x,type:'food'})),
+    ...INV_DATA.supply.map(x=>({...x,type:'supply'})),
+    ...INV_DATA.drink.map(x=>({...x,type:'drink'}))
+  ];
+  for(const item of allItems3){
+    const stock = invGetStock(item.type, item.name);
+    if(stock === null) continue;
+    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
+    if(stock < min) low++;
+  }
+  const el = document.getElementById('inv-low-count');
+  if(el) el.textContent = low;
+  return low;
+}
+
+function invColorRow(type, name, val){
+  const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
+  const allItems3 = [...INV_DATA.food.map(x=>({...x,type:'food'})),...INV_DATA.supply.map(x=>({...x,type:'supply'})),...INV_DATA.drink.map(x=>({...x,type:'drink'}))];
+  const item = allItems3.find(x=>x.type===type&&x.name===name);
+  if(!item) return;
+  const min = type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
+  const id = 'inv-inp-' + btoa(unescape(encodeURIComponent(type+'::'+name))).replace(/[^a-z0-9]/gi,'').slice(0,16);
+  const inp = document.getElementById(id);
+  if(!inp) return;
+  inp.classList.remove('low','ok');
+  if(val !== null){ inp.classList.add(val < min ? 'low' : 'ok'); }
+}
+
+function invFilter(f){
+  invFilter_current = f;
+  document.querySelectorAll('.inv-filter-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderInventory();
+}
+
+function invReset(){
+  if(!confirm('재고 입력을 모두 초기화하시겠습니까?')) return;
+  invStocks = {};
+  renderInventory();
+  showToast('초기화되었습니다');
+}
+
+function renderInventory(){
+  const con = document.getElementById('inv-container');
+  if(!con) return;
+  const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
+  const f = invFilter_current;
+
+  let html = '';
+
+  const sections = [
+    {key:'food', label:'🍕 식재료', emoji:'🍕'},
+    {key:'supply', label:'🧴 비품·소모품', emoji:'🧴'},
+    {key:'drink', label:'🍺 주류·음료', emoji:'🍺'}
+  ];
+
+  for(const sec of sections){
+    if(f !== 'all' && f !== sec.key && f !== 'low') continue;
+    const items = INV_DATA[sec.key];
+
+    // 카테고리별로 그룹핑
+    const cats = [...new Set(items.map(x=>x.cat))];
+    let secHtml = '';
+    for(const cat of cats){
+      const catItems = items.filter(x=>x.cat===cat);
+      let catHtml = '';
+      for(const item of catItems){
+        const stock = invGetStock(sec.key, item.name);
+        const min = sec.key==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
+        const minFr = sec.key==='food' ? item.minFr : item.minWd;
+        const isLow = stock !== null && stock < min;
+        if(f === 'low' && !isLow && stock !== null) continue;
+        if(f === 'low' && stock === null) continue;
+
+        const safeid = 'inv-inp-' + btoa(unescape(encodeURIComponent(sec.key+'::'+item.name))).replace(/[^a-z0-9]/gi,'').slice(0,16);
+        const clsInp = stock===null ? '' : (isLow ? 'low' : 'ok');
+        const platformLabel = {coupang:'쿠팡', foodpang:'푸드팡', direct:'직접발주'}[item.platform]||'';
+        const platformCls = item.platform;
+
+        catHtml += `<div class="inv-row">
+          <div class="inv-name">${h(item.name)}
+            <div class="inv-name-sub"><span class="inv-order-badge ${platformCls}">${platformLabel}</span></div>
+          </div>
+          <div class="inv-qty-box">
+            <div class="inv-min">최소<br>${min}${sec.key==='food'?'<span style="color:var(--text3);font-size:9px;">/금'+minFr+'</span>':''}</div>
+            <input type="number" id="${safeid}" class="inv-qty-inp ${clsInp}" min="0" placeholder="-"
+              value="${stock !== null ? stock : ''}"
+              onchange="invSetStock('${sec.key}','${h(item.name).replace(/'/g,"\\'")}',this.value===''?null:+this.value)"
+              oninput="invSetStock('${sec.key}','${h(item.name).replace(/'/g,"\\'")}',this.value===''?null:+this.value)">
+          </div>
+        </div>`;
+      }
+      if(!catHtml) continue;
+      secHtml += `<div class="inv-cat-hdr">${h(cat)}</div>${catHtml}`;
+    }
+
+    if(!secHtml) continue;
+
+    html += `<div class="inv-section">
+      <div class="inv-section-hdr" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+        <div class="inv-section-title">${sec.emoji} ${sec.label}</div>
+        <span style="font-size:12px;color:var(--text3);">▼</span>
+      </div>
+      <div class="inv-section-body">${secHtml}</div>
+    </div>`;
+  }
+
+  if(!html) html = '<div class="empty"><div class="em">📦</div><p>표시할 항목이 없습니다</p></div>';
+  con.innerHTML = html;
+  invUpdateLowCount();
+}
+
+function invShowSummary(){
+  const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
+  const allItems3 = [
+    ...INV_DATA.food.map(x=>({...x,type:'food'})),
+    ...INV_DATA.supply.map(x=>({...x,type:'supply'})),
+    ...INV_DATA.drink.map(x=>({...x,type:'drink'}))
+  ];
+
+  // 부족 항목 수집
+  const lowItems = allItems3.filter(item=>{
+    const stock = invGetStock(item.type, item.name);
+    if(stock === null) return false;
+    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
+    return stock < min;
+  });
+
+  // 플랫폼별 그룹핑
+  const groups = {coupang:[],foodpang:[],direct:[]};
+  for(const item of lowItems){
+    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
+    const stock = invGetStock(item.type, item.name);
+    const need = min - stock;
+    groups[item.platform||'direct'].push({...item, need, stock});
+  }
+
+  const platformNames = {coupang:'쿠팡 발주', foodpang:'푸드팡(아이폰) 발주', direct:'직접 발주 / 카톡·메일'};
+  let html = '';
+  let hasAny = false;
+  for(const [plat, items] of Object.entries(groups)){
+    if(!items.length) continue;
+    hasAny = true;
+    html += `<div class="inv-summary-group">
+      <div class="inv-summary-group-title">${platformNames[plat]}</div>`;
+    for(const item of items){
+      html += `<div class="inv-summary-item">
+        <span>${h(item.name)} <span style="opacity:.6;font-size:10px;">(${item.cat})</span></span>
+        <span class="inv-summary-count">현재 ${item.stock} → 최소 ${item.need+item.stock}필요 (+${item.need})</span>
+      </div>`;
+    }
+    html += '</div>';
+  }
+
+  if(!hasAny){
+    html = '<div class="inv-summary-empty">✅ 부족한 재고가 없습니다!</div>';
+  }
+
+  const body = document.getElementById('inv-summary-body');
+  body.innerHTML = `<div class="inv-summary-card"><div class="inv-summary-title">📋 발주 필요 목록 (${new Date().toLocaleDateString('ko-KR')} ${isWd?'평일':'금·주말'})</div>${html}</div>`;
+  document.getElementById('inv-summary-modal').classList.add('open');
+}
+
+function closeInvModal(){
+  document.getElementById('inv-summary-modal').classList.remove('open');
+}
+
+function invCopySummary(){
+  const isWd = new Date().getDay() >= 1 && new Date().getDay() <= 4;
+  const allItems3 = [
+    ...INV_DATA.food.map(x=>({...x,type:'food'})),
+    ...INV_DATA.supply.map(x=>({...x,type:'supply'})),
+    ...INV_DATA.drink.map(x=>({...x,type:'drink'}))
+  ];
+  const lowItems = allItems3.filter(item=>{
+    const stock = invGetStock(item.type, item.name);
+    if(stock === null) return false;
+    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
+    return stock < min;
+  });
+
+  const groups = {coupang:[],foodpang:[],direct:[]};
+  for(const item of lowItems){
+    const min = item.type==='food' ? (isWd ? item.minWd : item.minFr) : item.minWd;
+    const stock = invGetStock(item.type, item.name);
+    const need = min - stock;
+    groups[item.platform||'direct'].push({...item, need});
+  }
+
+  const platformNames = {coupang:'[쿠팡 발주]', foodpang:'[푸드팡 발주]', direct:'[직접 발주/카톡·메일]'};
+  let text = `📦 발주 요청 (${new Date().toLocaleDateString('ko-KR')} ${isWd?'평일':'금·주말'})\n\n`;
+  for(const [plat, items] of Object.entries(groups)){
+    if(!items.length) continue;
+    text += platformNames[plat] + '\n';
+    for(const item of items){ text += `• ${item.name} (+${item.need})\n`; }
+    text += '\n';
+  }
+  if(!lowItems.length) text = '재고가 모두 충분합니다 ✅';
+
+  navigator.clipboard.writeText(text).then(()=>showToast('클립보드에 복사됨 📋')).catch(()=>showToast('복사 실패'));
 }
 
 // ── Toast ──
