@@ -396,7 +396,10 @@
       <button class="inv-filter-btn" onclick="invFilter('low')">⚠️ 부족</button>
     </div>
     <div class="inv-save-bar">
-      <div class="inv-save-info">부족 항목: <strong id="inv-low-count">0</strong>개</div>
+      <div class="inv-save-info">부족 항목: <strong id="inv-low-count">0</strong>개
+        <span id="inv-sheet-badge" style="display:none;margin-left:6px;font-size:10px;background:rgba(22,163,74,.12);color:var(--green);border-radius:8px;padding:1px 6px;font-weight:700;">Sheets</span>
+      </div>
+      <button class="btn btn-sm btn-ghost" onclick="invRefreshSheets()" title="Google Sheets에서 최신 품목 다시 불러오기">🔄</button>
       <button class="btn btn-sm btn-ghost" onclick="invReset()">초기화</button>
       <button class="btn btn-sm btn-primary" onclick="invShowSummary()">📋 발주 요약</button>
     </div>
@@ -1090,7 +1093,7 @@ function switchTab(tab){
   });
   if(tab==='admin')loadAdmin();
   if(tab==='add')loadAddTab();
-  if(tab==='inventory')renderInventory();
+  if(tab==='inventory')initInventory();
 }
 
 // ── Push ──
@@ -1122,7 +1125,62 @@ async function sendPushToAll(title,body){
 }
 
 // ── 재고관리 ──
-// 엑셀 원본 데이터: {cat, name, unit, minWd(평일기준), minFr(금요일기준), platform}
+// Google Sheets 연동: 시트 데이터를 우선 사용, 실패시 fallback INV_DATA 사용
+// Sheets URL 설정: 아래 SHEET_ID에 본인 Google Sheet ID를 입력하세요
+const SHEETS_CONFIG = {
+  SHEET_ID: 'YOUR_GOOGLE_SHEET_ID',   // ← Google Sheet ID 입력
+  SHEET_NAMES: { food:'음식', supply:'비품', drink:'음료' },
+  // 열 순서: A=type, B=cat, C=name, D=supplier, E=unit, F=minWd, G=minFr, H=platform
+  COL: { type:0, cat:1, name:2, supplier:3, unit:4, minWd:5, minFr:6, platform:7 }
+};
+
+let INV_DATA_LOADED = false; // Sheets에서 성공적으로 로드됐는지 여부
+
+async function loadInvFromSheets(){
+  const {SHEET_ID, SHEET_NAMES, COL} = SHEETS_CONFIG;
+  if(SHEET_ID === 'YOUR_GOOGLE_SHEET_ID'){
+    console.log('[재고] Google Sheet ID 미설정 → 기본 데이터 사용');
+    return false;
+  }
+  try{
+    const results = {};
+    for(const [key, sheetName] of Object.entries(SHEET_NAMES)){
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+      const res = await fetch(url, {cache:'no-cache'});
+      if(!res.ok) throw new Error(`Sheet fetch 실패: ${sheetName}`);
+      const text = await res.text();
+      // Google의 응답은 /*O_o*/ ... 형태로 래핑됨
+      const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+      const rows = json.table.rows;
+      results[key] = rows
+        .filter(r => r.c && r.c[COL.name] && r.c[COL.name].v) // name 비어있는 행 제외
+        .map(r => ({
+          cat:      (r.c[COL.cat]?.v  || '').toString().trim(),
+          name:     (r.c[COL.name]?.v || '').toString().trim(),
+          supplier: (r.c[COL.supplier]?.v || '').toString().trim(),
+          unit:     (r.c[COL.unit]?.v || '').toString().trim(),
+          minWd:    (r.c[COL.minWd]?.v ?? '').toString().trim(),
+          minFr:    (r.c[COL.minFr]?.v ?? '').toString().trim(),
+          platform: (r.c[COL.platform]?.v || 'direct').toString().trim(),
+        }));
+    }
+    // INV_DATA 덮어쓰기
+    INV_DATA.food    = results.food    || INV_DATA.food;
+    INV_DATA.supply  = results.supply  || INV_DATA.supply;
+    INV_DATA.drink   = results.drink   || INV_DATA.drink;
+    INV_DATA_LOADED = true;
+    console.log(`[재고] Sheets 로드 완료 — 음식:${INV_DATA.food.length} 비품:${INV_DATA.supply.length} 음료:${INV_DATA.drink.length}`);
+    // Sheets 뱃지 표시
+    const badge = document.getElementById('inv-sheet-badge');
+    if(badge) badge.style.display = 'inline';
+    return true;
+  } catch(e){
+    console.warn('[재고] Sheets 로드 실패, 기본 데이터 사용:', e.message);
+    return false;
+  }
+}
+
+// 엑셀 원본 데이터 (Fallback): {cat, name, unit, minWd(평일기준), minFr(금요일기준), platform}
 // minWd/minFr 이 문자열이면 수량 표시용(예: "1~2 Box"), 숫자면 발주량 자동계산 가능
 // platform: 'coupang' | 'foodpang' | 'direct'
 const INV_DATA = {
@@ -1390,6 +1448,27 @@ function invReset(){
   invStocks = {};
   renderInventory();
   showToast('초기화되었습니다');
+}
+
+let _invSheetsTried = false; // 탭 전환마다 중복 fetch 방지
+
+async function initInventory(){
+  const con = document.getElementById('inv-container');
+  if(!con) return;
+  if(!_invSheetsTried){
+    _invSheetsTried = true;
+    // 로딩 표시
+    con.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text2);font-size:13px;">📡 품목 데이터 불러오는 중…</div>';
+    const ok = await loadInvFromSheets();
+    if(ok) showToast('✅ 최신 품목 데이터 로드됨');
+  }
+  renderInventory();
+}
+
+// 재고 탭에서 수동 새로고침 버튼용
+async function invRefreshSheets(){
+  _invSheetsTried = false;
+  await initInventory();
 }
 
 function renderInventory(){
