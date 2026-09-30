@@ -396,10 +396,11 @@
       <button class="inv-filter-btn" onclick="invFilter('low')">⚠️ 부족</button>
     </div>
     <div class="inv-save-bar">
-      <div class="inv-save-info">부족 항목: <strong id="inv-low-count">0</strong>개
-        <span id="inv-sheet-badge" style="display:none;margin-left:6px;font-size:10px;background:rgba(22,163,74,.12);color:var(--green);border-radius:8px;padding:1px 6px;font-weight:700;">Sheets</span>
-      </div>
-      <button class="btn btn-sm btn-ghost" onclick="invRefreshSheets()" title="Google Sheets에서 최신 품목 다시 불러오기">🔄</button>
+      <div class="inv-save-info">부족 항목: <strong id="inv-low-count">0</strong>개</div>
+      <button class="btn btn-sm btn-ghost" onclick="invOpenSheets()" id="inv-sheets-btn" title="Google Sheets에서 품목 편집">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px"><rect x="3" y="3" width="18" height="18" rx="2" fill="#34A853"/><path d="M7 8h10M7 12h10M7 16h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>Sheets 편집
+      </button>
+      <button class="btn btn-sm btn-ghost" onclick="invRefreshSheets()" title="Sheets에서 최신 품목 다시 불러오기">🔄</button>
       <button class="btn btn-sm btn-ghost" onclick="invReset()">초기화</button>
       <button class="btn btn-sm btn-primary" onclick="invShowSummary()">📋 발주 요약</button>
     </div>
@@ -1469,6 +1470,16 @@ async function initInventory(){
 async function invRefreshSheets(){
   _invSheetsTried = false;
   await initInventory();
+}
+
+// Google Sheets 열기
+function invOpenSheets(){
+  const {SHEET_ID} = SHEETS_CONFIG;
+  if(SHEET_ID === 'YOUR_GOOGLE_SHEET_ID'){
+    showToast('⚙️ SHEET_ID를 먼저 설정해 주세요');
+    return;
+  }
+  window.open(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`, '_blank');
 }
 
 function renderInventory(){
